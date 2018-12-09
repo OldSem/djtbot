@@ -1,0 +1,4 @@
+.idea
+*.pyc
+djtbot/db.sqlite3
+venv
