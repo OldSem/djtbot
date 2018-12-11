@@ -47,17 +47,33 @@ class Male(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30)
 
-    user = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Country(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30)
 
-    user = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+
+class ClothesMale(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class ClothesCountry(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=30)
 
     def __str__(self):
         return self.name
@@ -78,25 +94,28 @@ class Clothes(models.Model):
     currency = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
     parent_category = models.ForeignKey(ParentCategoryClothes, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryClothes, on_delete=models.CASCADE)
-    male = models.ForeignKey(Male, on_delete=models.CASCADE)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    male = models.ForeignKey(ClothesMale, on_delete=models.CASCADE)
+    country = models.ForeignKey(ClothesCountry, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.article_id
 
 
-class Buttons(models.Model):
-    id = models.AutoField(primary_key=True, editable=False)
-    name = models.CharField(max_length=30)
-    callback_data = models.CharField(max_length=30)
-    switch_inline_query_current_chat = models.CharField(max_length=30)
-    url = models.URLField()
-
-
-class Message(models.Model):
-    id = models.AutoField(primary_key=True, editable=False)
-    name = models.CharField(max_length=30)
-    text = models.TextField()
+# class Buttons(models.Model):
+#     id = models.AutoField(primary_key=True, editable=False)
+#     name = models.CharField(max_length=30, unique=True)
+#     callback_data = models.CharField(max_length=30, unique=True, blank=True, default='')
+#     switch_inline_query_current_chat = models.CharField(max_length=30, unique=True, blank=True, default='')
+#     url = models.URLField(blank=True, default='')
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Message(models.Model):
+#     id = models.AutoField(primary_key=True, editable=False)
+#     name = models.CharField(max_length=30)
+#     text = models.TextField()
 
 
 class Basket(models.Model):

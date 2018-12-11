@@ -26,27 +26,49 @@ class ManagerUserCity(object):
     @classmethod
     def get_user(cls, user_id):
         try:
-            user = Country.objects.get(user=user_id)
-        except User.DoesNotExist:
-            user = None
+            country = Country.objects.get(user_id=user_id)
+        except Country.DoesNotExist:
+            country = None
 
-        return user
+        return country
 
     @classmethod
     def create(cls, country, user_id):
-        user = Country.objects.create(name=country(country), user=user_id)
+        user = Country.objects.create(
+            name='Украина' if country == 1 else 'Россия',
+            user_id=user_id
+        )
         user.save()
 
     @classmethod
     def update(cls, user_id, country):
-        user = Country.objects.filter(user=user_id).update(name=country(country))
+        user = Country.objects.filter(user_id=user_id).update(name='Украина' if country == 1 else 'Россия')
+
+
+class ManagerUserTypes(object):
+    @classmethod
+    def get_user(cls, user_id):
+        try:
+            male = Male.objects.get(user_id=user_id)
+        except Male.DoesNotExist:
+            male = None
+
+        return male
+
+    @classmethod
+    def create(cls, male, user_id):
+        user = Male.objects.create(name='Мужской' if male == 1 else 'Женский', user_id=user_id)
         user.save()
 
-    @staticmethod
-    def country(country):
-        if country == 1:
-            country = 'Украина'
-        else:
-            country = 'Россия'
+    @classmethod
+    def update(cls, user_id, male):
+        user = Male.objects.filter(user_id=user_id).update(name='Мужской' if male == 1 else 'Женский')
 
-        return country
+
+class ClothesManager(object):
+    @classmethod
+    def get_clothes_all(cls):
+        clothes = Clothes.objects.all()
+
+        return clothes if clothes else None
+

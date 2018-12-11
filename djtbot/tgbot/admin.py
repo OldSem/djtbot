@@ -9,12 +9,16 @@ class CategoryClothesAdmin(admin.ModelAdmin):
 
 @admin.register(Male)
 class MaleAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'name')
+    list_filter = ('name',)
+    search_fields = ['user']
 
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'name')
+    list_filter = ('name',)
+    search_fields = ['user']
 
 
 @admin.register(User)
@@ -43,16 +47,26 @@ class CategoryPriceAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Buttons)
-class ButtonsAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Buttons)
+# class ButtonsAdmin(admin.ModelAdmin):
+#     pass
+#
+#
+# @admin.register(Message)
+# class MessageAdmin(admin.ModelAdmin):
+#     pass
 
 
 @admin.register(Basket)
 class BasketAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ClothesMale)
+class ClothesMaleAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ClothesCountry)
+class ClothesCountryAdmin(admin.ModelAdmin):
     pass
