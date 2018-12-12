@@ -29,20 +29,28 @@ def country_view(data):
         if status_city is None:
             if view.get_text(data) == button.btn1.text:
                 city.create(user_id=user.id, country=1)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
             elif view.get_text(data) == button.btn2.text:
                 city.create(user_id=user.id, country=2)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
         else:
             if view.get_text(data) == button.btn1.text:
                 city.update(user_id=user.id, country=1)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
             elif view.get_text(data) == button.btn2.text:
                 city.update(user_id=user.id, country=2)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
 
 def male_view(data):
@@ -55,24 +63,28 @@ def male_view(data):
         if status_male is None:
             if view.get_text(data) == button.btn3.text:
                 types.create(1, user.id)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
             elif view.get_text(data) == button.btn4.text:
                 types.create(2, user.id)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
         else:
             if view.get_text(data) == button.btn3.text:
                 types.update(user.id, 1)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
             elif view.get_text(data) == button.btn4.text:
                 types.update(user.id, 2)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
 
 def see_product_all_view(data):
