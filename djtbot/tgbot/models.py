@@ -120,5 +120,12 @@ class Clothes(models.Model):
 
 class Basket(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
-    product_id = models.ManyToManyField(Clothes)
-    user_id = models.ManyToManyField(User)
+
+    product = models.ForeignKey(Clothes, on_delete=models.CASCADE, to_field='article_id')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, to_field='id_user_in_telegram')
+
+
+class BasketHistory(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user = models.IntegerField()
+    product = models.IntegerField()

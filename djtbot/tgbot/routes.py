@@ -1,5 +1,5 @@
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
-    ManagerUserTypes as types, ClothesManager as clothes
+    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
@@ -90,14 +90,33 @@ def male_view(data):
 def see_product_all_view(data):
     results = []
     clothe = clothes.get_clothes_all().values()
+    b = []
 
     if clothe:
         for i in clothe:
             results.append(InlineQueryResultPhoto(
                 id=i['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_top']}",
                 thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_left']}", photo_width=30,
-                photo_height=30, caption=i['description'], parse_mode='HTML',
-                reply_markup=view.product())
+                photo_height=30, caption=i['description'], parse_mode='HTML', reply_markup=view.product())
             )
+            button.btn46.callback_data = i['article_id']
+            b.append(button.btn46)
+    print(b)
 
     return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+
+
+def basket_view(data):
+    user_id = view.user_id(data)
+    product_id = view.get_product_id(data)
+
+    if basket.get(product_id=product_id):
+        basket.del_product(product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_remove_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')
+    else:
+        basket.add(user_id=user_id, product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_add_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')

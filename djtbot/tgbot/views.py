@@ -6,7 +6,7 @@ from .menu import Views as v
 from .messages import Messages as msg
 from .buttons import Buttons as b
 from .settings import bot
-from .routes import start_view, country_view, male_view, see_product_all_view
+from .routes import start_view, country_view, male_view, see_product_all_view, basket_view
 from .webhooks import Bot
 
 basket = []
@@ -71,6 +71,11 @@ def bot_view(request):
         elif v.get_text(data) == b.btn48.switch_inline_query_current_chat and len(basket) > 0:
             bot.answer_inline_query(v.chat_id(data), results=basket, cache_time=0, next_offset='')
 
+        elif b.btn46.callback_data in v.get_caption(data):
+            basket_view(data)
+        print(b.btn46.callback_data)
+        print('*' * 100)
+        print(v.get_text(data))
         # elif v.get_text(data) and b.product.article_id1 in v.get_text(data):
         #     product_id = v.get_product_id(data)
         #
