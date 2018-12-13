@@ -128,27 +128,23 @@ class Views(object):
     @classmethod
     def get_text(cls, data):
         try:
-            if isinstance(data, dict):
-                try:
-                    value = data["message"]["text"]
-                except KeyError:
-                    value = None
+            value = data["message"]["text"]
+        except KeyError:
+            value = None
 
-                if value is None:
-                    try:
-                        value = data['callback_query']['data']
-                    except KeyError:
-                        value = None
+        if value is None:
+            try:
+                value = data['callback_query']['data']
+            except KeyError:
+                value = None
 
-                if value is None:
-                    try:
-                        value = data['inline_query']['query']
-                    except KeyError:
-                        value = None
+        if value is None:
+            try:
+                value = data['inline_query']['query']
+            except KeyError:
+                value = None
 
-                return value
-        except:
-            pass
+        return value
 
     @classmethod
     def chat_id(cls, data):
@@ -268,6 +264,12 @@ class Views(object):
                 if value is None:
                     try:
                         value = data["callback_query"]["message"]["chat"]["id"]
+                    except KeyError:
+                        value = None
+
+                if value is None:
+                    try:
+                        value = data["callback_query"]["from"]["id"]
                     except KeyError:
                         value = None
 

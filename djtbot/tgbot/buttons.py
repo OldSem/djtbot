@@ -1,5 +1,4 @@
 from telebot.types import KeyboardButton, InlineKeyboardButton
-from .messages import Messages
 
 
 class Url(object):
@@ -13,7 +12,6 @@ class Url(object):
 
 class Buttons(object):
     url = Url().set()
-    product = Messages()
 
     """Buttons for use in Bot"""
     btn1 = KeyboardButton(text="Украина")
@@ -61,6 +59,6 @@ class Buttons(object):
     btn43 = InlineKeyboardButton(text="<", callback_data='<')
     btn44 = InlineKeyboardButton(text=">", callback_data='>')
     btn45 = InlineKeyboardButton(text='Заказать', url=url)
-    btn46 = InlineKeyboardButton(text='Корзина', callback_data=f'{product.article_id1}')
+    btn46 = InlineKeyboardButton(text='Корзина', callback_data='')
     btn47 = InlineKeyboardButton(text='Назад', switch_inline_query_current_chat='#кофты')
     btn48 = InlineKeyboardButton(text="Смотреть", switch_inline_query_current_chat='#корзина')
