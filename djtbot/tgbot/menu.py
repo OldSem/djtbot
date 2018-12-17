@@ -120,9 +120,11 @@ class Views(object):
         return markup
 
     @classmethod
-    def product(cls):
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(btn.btn45, btn.btn46, btn.btn47)
+    def product(cls, article_id):
+        markup = InlineKeyboardMarkup()
+        btn.btn46.callback_data = article_id
+        markup.add(btn.btn45, btn.btn46)
+        markup.add(btn.btn47)
         return markup
 
     @classmethod
@@ -286,15 +288,11 @@ class Views(object):
     @classmethod
     def get_caption(cls, data):
         try:
-            if isinstance(data, dict):
-                try:
-                    value = data["message"]["caption"]
-                except KeyError:
-                    value = None
+            value = data["callback_query"]["caption"]
+        except KeyError:
+            value = None
 
-                return value
-        except:
-            pass
+        return value
 
     @classmethod
     def get_product_id(cls, data):
