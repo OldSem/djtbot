@@ -58,8 +58,83 @@ def bot_view(request):
         elif v.get_text(data) == b.btn13.text:
             bot.send_message(v.chat_id(data), msg.user_return(), reply_markup=v.menu())
 
+        elif v.get_text(data) == b.btn14.text:
+            bot.send_message(v.chat_id(data), msg.price_jackets(), reply_markup=v.price(), parse_mode='HTML')
+
         elif v.get_text(data) == b.btn15.text:
-            bot.send_message(v.chat_id(data), msg.price(), reply_markup=v.price(), parse_mode='HTML')
+            bot.send_message(v.chat_id(data), msg.price_sweatshirts(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn16.text:
+            bot.send_message(v.chat_id(data), msg.price_t_shirts(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn17.text:
+            bot.send_message(v.chat_id(data), msg.price_shirts(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn18.text:
+            bot.send_message(v.chat_id(data), msg.price_shirts_warm(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn19.text:
+            bot.send_message(v.chat_id(data), msg.price_caps(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn20.text:
+            bot.send_message(v.chat_id(data), msg.price_hats(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn21.text:
+            bot.send_message(v.chat_id(data), msg.price_trousers(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn22.text:
+            bot.send_message(v.chat_id(data), msg.price_shorts(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn23.text:
+            bot.send_message(v.chat_id(data), msg.price_belts(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn24.text:
+            bot.send_message(v.chat_id(data), msg.price_underwear(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn25.text:
+            bot.send_message(v.chat_id(data), msg.price_socks(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn26.text:
+            bot.send_message(v.chat_id(data), msg.price_tracksuits(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn27.text:
+            bot.send_message(v.chat_id(data), msg.price_classic_costumes(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn28.text:
+            bot.send_message(v.chat_id(data), msg.price_sneakers(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn29.text:
+            bot.send_message(v.chat_id(data), msg.price_lightweight_sneakers(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn30.text:
+            bot.send_message(v.chat_id(data), msg.price_boots(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn31.text:
+            bot.send_message(v.chat_id(data), msg.price_shoes(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn32.text:
+            bot.send_message(v.chat_id(data), msg.price_backpacks(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn33.text:
+            bot.send_message(v.chat_id(data), msg.price_bags(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn34.text:
+            bot.send_message(v.chat_id(data), msg.price_glasses(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn35.text:
+            bot.send_message(v.chat_id(data), msg.price_clock(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn36.text:
+            bot.send_message(v.chat_id(data), msg.price_wallets(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn37.text:
+            bot.send_message(v.chat_id(data), msg.price_covers(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn38.text:
+            bot.send_message(v.chat_id(data), msg.price_perfume(), reply_markup=v.price(), parse_mode='HTML')
+
+        elif v.get_text(data) == b.btn39.text:
+            bot.send_message(v.chat_id(data), msg.price_umbrellas(), reply_markup=v.price(), parse_mode='HTML')
 
         elif v.get_text(data) == b.btn40.switch_inline_query_current_chat:
             see_product_view(data)
