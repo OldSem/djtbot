@@ -141,11 +141,12 @@ def see_product_basket(data):
 def get_all_product_in_basket(data):
     user_id = view.user_id(data)
     products = basket.get_product_in_basket(user_id)
-    results = []
 
     if products:
-        for pr in products.values():
-            prod = clothes.get_clothes(pr['product_id'])
+        results = []
+
+        for i in products.values():
+            prod = clothes.get_clothes(i['product_id'])
 
             if prod:
                 for product in prod.values():
@@ -157,4 +158,4 @@ def get_all_product_in_basket(data):
                         reply_markup=view.product(article_id=product['article_id']))
                     )
 
-            return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+        return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
