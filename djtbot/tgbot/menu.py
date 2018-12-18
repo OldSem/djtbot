@@ -92,8 +92,9 @@ class Views(object):
         return markup
 
     @classmethod
-    def price(cls):
+    def price(cls, category):
         markup = InlineKeyboardMarkup()
+        btn.btn40.switch_inline_query_current_chat = '#'+(str(category).lower())
         markup.add(btn.btn40)
         return markup
 

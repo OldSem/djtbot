@@ -53,7 +53,7 @@ class Buttons(object):
     btn37 = KeyboardButton(text="Чехлы")
     btn38 = KeyboardButton(text="Духи")
     btn39 = KeyboardButton(text="Зонты")
-    btn40 = InlineKeyboardButton(text="Смотреть все!", switch_inline_query_current_chat='#кофты')
+    btn40 = InlineKeyboardButton(text="Смотреть все!")
     btn41 = InlineKeyboardButton(text="до 500 (грн)", callback_data='<500')
     btn42 = InlineKeyboardButton(text="от 500 (грн)", callback_data='>500')
     btn43 = InlineKeyboardButton(text="<", callback_data='<')
