@@ -120,5 +120,17 @@ class Clothes(models.Model):
 
 class Basket(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
-    product_id = models.ManyToManyField(Clothes)
-    user_id = models.ManyToManyField(User)
+    id_user_in_telegram = models.CharField(max_length=30)
+    product_id = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.product_id
+
+
+class BasketHistory(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    id_user_in_telegram = models.CharField(max_length=30)
+    product_id = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.id_user_in_telegram

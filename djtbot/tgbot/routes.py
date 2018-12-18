@@ -1,5 +1,5 @@
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
-    ManagerUserTypes as types, ClothesManager as clothes
+    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
@@ -87,17 +87,75 @@ def male_view(data):
                                         reply_markup=view.menu(), parse_mode='HTML')
 
 
-def see_product_all_view(data):
-    results = []
-    clothe = clothes.get_clothes_all().values()
+def see_product_view(data):
+    clothe = clothes.get_clothes_all()
 
     if clothe:
-        for i in clothe:
+        results = []
+
+        for product in clothe.values():
             results.append(InlineQueryResultPhoto(
-                id=i['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_top']}",
-                thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_left']}", photo_width=30,
-                photo_height=30, caption=i['description'], parse_mode='HTML',
-                reply_markup=view.product())
+                id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
+                thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
+                photo_height=30, caption=product['description'], parse_mode='HTML',
+                reply_markup=view.product(article_id=product['article_id']))
             )
 
-    return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+        return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+    else:
+        raise Exception('Not query for clothes')
+
+
+def add_product_to_basket(data):
+    user_id = view.user_id(data)
+    product_id = view.get_product_id(data)
+
+    if basket.get(id_user_in_telegram=user_id, product_id=product_id):
+        basket.del_product(id_user_in_telegram=user_id, product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_remove_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')
+    else:
+        basket.add(user_id=user_id, product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_add_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')
+
+
+def see_product_basket(data):
+    user_id = view.user_id(data)
+    products = basket.get_product_in_basket(user_id)
+    product_list = []
+
+    if products:
+        for product in products.values():
+            product_list.append(product['product_id'])
+
+    if len(product_list) > 0:
+        return bot.send_message(view.chat_id(data), text=message.basket(),
+                                reply_markup=view.see_basket(), parse_mode='HTML')
+    else:
+        return bot.send_message(view.chat_id(data), message.basket_not_items(), reply_markup=view.basket())
+
+
+def get_all_product_in_basket(data):
+    user_id = view.user_id(data)
+    products = basket.get_product_in_basket(user_id)
+
+    if products:
+        results = []
+
+        for i in products.values():
+            prod = clothes.get_clothes(i['product_id'])
+
+            if prod:
+                for product in prod.values():
+
+                    results.append(InlineQueryResultPhoto(
+                        id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
+                        photo_height=30, caption=product['description'], parse_mode='HTML',
+                        reply_markup=view.product(article_id=product['article_id']))
+                    )
+
+        return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')

@@ -1,13 +1,4 @@
 class Messages(object):
-    def __init__(self):
-        self.article_id1 = 'A CX12451'
-        self.article_id2 = 'A CX12452'
-        self.article_id3 = 'A CX12453'
-        self.article_id4 = 'A CX12454'
-        self.article_id5 = 'A CX12455'
-        self.article_id6 = 'A CX12456'
-        self.article_id7 = 'A CX12457'
-
     @classmethod
     def start(cls):
         return "Здравствуйте.\n\n<strong>Меня зовут Rossi!</strong>\nЯ бот который поможет вам найти нужную одежду," \
@@ -44,12 +35,14 @@ class Messages(object):
                 "Чтобы просмотреть все имеющиеся товары которые" \
                " вы добавили в корзину, нажмите кнопку - <strong>Смотреть!</strong>"
 
-    def basket_remove_product(self):
-        return f"Удалили: {self.article_id1}\n"\
-                "Если вы хотите добавить товар в корзины, нажмите еще раз кнопку - Корзина."
+    @classmethod
+    def basket_remove_product(cls, product_id):
+        return f"<strong>Удалили:</strong> {product_id}\n"\
+                "Если вы хотите добавить товар в корзину, нажмите еще раз кнопку - Корзина."
 
-    def basket_add_product(self):
-        return f"<strong>Добавили:</strong> {self.article_id1}\n"\
+    @classmethod
+    def basket_add_product(cls, product_id):
+        return f"<strong>Добавили:</strong> {product_id}\n"\
                 "Если вы хотите удалить товар из корзины, нажмите еще раз кнопку - Корзина."
 
     @classmethod
@@ -68,37 +61,6 @@ class Messages(object):
         return "<strong>Вы выбрали - Кофты!\n</strong>"\
                 "Чтобы просмотреть все имеющиеся товары, нажмите кнопку - <strong>Смотреть все!</strong>"
 
-    def product1(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id1)
-
-    def product2(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id2)
-
-    def product3(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id3)
-
-    def product4(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id4)
-
-    def product5(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id5)
-
-    def product6(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id6)
-
-    def product7(self):
-        return "<strong>〰 Road to the Dream</strong>\nСпортивный Лонгслив - Серый\n💰 1800.00 RUB\n\n<b>" \
-               "Размер:</b> XS,S,M,L,XL\n<b>Состав:</b> Полиэстер 95%, Эластан 5%\n<b>Производитель:</b> Россия\n" \
-               "Артикул - {}".format(self.article_id7)
+    @classmethod
+    def product(cls, product_description):
+        return product_description
