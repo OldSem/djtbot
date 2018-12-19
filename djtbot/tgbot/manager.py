@@ -72,3 +72,54 @@ class ClothesManager(object):
 
         return clothes if clothes else None
 
+    @classmethod
+    def get_clothes(cls, article_id):
+        article = Clothes.objects.filter(article_id=article_id)
+
+        return article if article else None
+
+    @classmethod
+    def filter_clothes_for_category(cls, category_id):
+        article = Clothes.objects.filter(category_id=category_id)
+
+        return article if article else None
+
+
+class ClothesCategoryManager(object):
+    @classmethod
+    def get_category_id(cls, category):
+        try:
+            category = CategoryClothes.objects.get(name=category)
+        except CategoryClothes.DoesNotExist:
+            category = None
+
+        return category
+
+
+class BasketManager(object):
+    @classmethod
+    def add(cls, user_id, product_id):
+        basket = Basket.objects.create(id_user_in_telegram=user_id, product_id=product_id)
+        basket.save()
+
+    @classmethod
+    def get(cls, id_user_in_telegram, product_id):
+        product = Basket.objects.filter(id_user_in_telegram=id_user_in_telegram, product_id=product_id)
+
+        return product if product else None
+
+    @classmethod
+    def del_product(cls, id_user_in_telegram, product_id):
+        try:
+            product = Basket.objects.filter(id_user_in_telegram=id_user_in_telegram, product_id=product_id)
+            product.delete()
+        except Basket.DoesNotExist:
+            product = None
+
+        return product
+
+    @classmethod
+    def get_product_in_basket(cls, user_id):
+        product = Basket.objects.filter(id_user_in_telegram=user_id)
+
+        return product if product else None

@@ -1,5 +1,6 @@
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
-    ManagerUserTypes as types, ClothesManager as clothes
+    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
+    ClothesCategoryManager
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
@@ -29,20 +30,28 @@ def country_view(data):
         if status_city is None:
             if view.get_text(data) == button.btn1.text:
                 city.create(user_id=user.id, country=1)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
             elif view.get_text(data) == button.btn2.text:
                 city.create(user_id=user.id, country=2)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
         else:
             if view.get_text(data) == button.btn1.text:
                 city.update(user_id=user.id, country=1)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
             elif view.get_text(data) == button.btn2.text:
                 city.update(user_id=user.id, country=2)
-                return bot.send_message(view.chat_id(data), message.male(), reply_markup=view.question_male())
+
+                return bot.send_message(view.chat_id(data), message.male(),
+                                        reply_markup=view.question_male())
 
 
 def male_view(data):
@@ -55,37 +64,125 @@ def male_view(data):
         if status_male is None:
             if view.get_text(data) == button.btn3.text:
                 types.create(1, user.id)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
             elif view.get_text(data) == button.btn4.text:
                 types.create(2, user.id)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
         else:
             if view.get_text(data) == button.btn3.text:
                 types.update(user.id, 1)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
             elif view.get_text(data) == button.btn4.text:
                 types.update(user.id, 2)
-                return bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(),
-                                 parse_mode='HTML')
+
+                return bot.send_message(view.chat_id(data), message.start(),
+                                        reply_markup=view.menu(), parse_mode='HTML')
 
 
-def see_product_all_view(data):
-    results = []
-    clothe = clothes.get_clothes_all().values()
+def get_category_id_in_query(query):
 
-    if clothe:
-        for i in clothe:
-            results.append(InlineQueryResultPhoto(
-                id=i['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_top']}",
-                thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{i['img_left']}", photo_width=30,
-                photo_height=30, caption=i['description'], parse_mode='HTML',
-                reply_markup=view.product())
-            )
+    if query:
+        value = query[1:].capitalize()
 
-    return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+        return value
+
+    return None
+
+
+def see_product_view(data):
+    query = view.get_text(data)
+    category_name = get_category_id_in_query(query)
+
+    if category_name:
+        category = ClothesCategoryManager.get_category_id(category=category_name)
+
+        if category:
+            clothe = clothes.filter_clothes_for_category(category_id=category.id)
+
+            if clothe:
+                results = []
+
+                for product in clothe.values():
+                    results.append(InlineQueryResultPhoto(
+                        id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
+                        photo_height=30, caption=product['description'], parse_mode='HTML',
+                        reply_markup=view.product(article_id=product['article_id'], category=query))
+                    )
+
+                return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+
+            else:
+                return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
+                                        parse_mode='HTML')
+
+        else:
+            return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
+
+    else:
+        return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
+
+
+def add_product_to_basket(data):
+    user_id = view.user_id(data)
+    product_id = view.get_product_id(data)
+
+    if basket.get(id_user_in_telegram=user_id, product_id=product_id):
+        basket.del_product(id_user_in_telegram=user_id, product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_remove_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')
+    else:
+        basket.add(user_id=user_id, product_id=product_id)
+
+        return bot.send_message(view.chat_id(data), message.basket_add_product(product_id),
+                                reply_markup=view.basket(), parse_mode='HTML')
+
+
+def see_product_basket(data):
+    user_id = view.user_id(data)
+    products = basket.get_product_in_basket(user_id)
+    product_list = []
+
+    if products:
+        for product in products.values():
+            product_list.append(product['product_id'])
+
+    if len(product_list) > 0:
+        return bot.send_message(view.chat_id(data), text=message.basket(),
+                                reply_markup=view.see_basket(), parse_mode='HTML')
+    else:
+        return bot.send_message(view.chat_id(data), message.basket_not_items(), reply_markup=view.basket())
+
+
+def get_all_product_in_basket(data):
+    user_id = view.user_id(data)
+    products = basket.get_product_in_basket(user_id)
+    query = view.get_text(data)
+
+    if products:
+        results = []
+
+        for i in products.values():
+            prod = clothes.get_clothes(i['product_id'])
+
+            if prod:
+                for product in prod.values():
+
+                    results.append(InlineQueryResultPhoto(
+                        id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
+                        photo_height=30, caption=product['description'], parse_mode='HTML',
+                        reply_markup=view.product(article_id=product['article_id'], category=query))
+                    )
+
+        return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')

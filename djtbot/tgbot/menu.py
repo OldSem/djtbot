@@ -92,8 +92,9 @@ class Views(object):
         return markup
 
     @classmethod
-    def price(cls):
+    def price(cls, category):
         markup = InlineKeyboardMarkup()
+        btn.btn40.switch_inline_query_current_chat = '#'+(str(category).lower())
         markup.add(btn.btn40)
         return markup
 
@@ -120,35 +121,34 @@ class Views(object):
         return markup
 
     @classmethod
-    def product(cls):
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(btn.btn45, btn.btn46, btn.btn47)
+    def product(cls, article_id, category):
+        markup = InlineKeyboardMarkup()
+        btn.btn46.callback_data = article_id
+        btn.btn47.switch_inline_query_current_chat = category
+        markup.add(btn.btn45, btn.btn46)
+        markup.add(btn.btn47)
         return markup
 
     @classmethod
     def get_text(cls, data):
         try:
-            if isinstance(data, dict):
-                try:
-                    value = data["message"]["text"]
-                except KeyError:
-                    value = None
+            value = data["message"]["text"]
+        except KeyError:
+            value = None
 
-                if value is None:
-                    try:
-                        value = data['callback_query']['data']
-                    except KeyError:
-                        value = None
+        if value is None:
+            try:
+                value = data['callback_query']['data']
+            except KeyError:
+                value = None
 
-                if value is None:
-                    try:
-                        value = data['inline_query']['query']
-                    except KeyError:
-                        value = None
+        if value is None:
+            try:
+                value = data['inline_query']['query']
+            except KeyError:
+                value = None
 
-                return value
-        except:
-            pass
+        return value
 
     @classmethod
     def chat_id(cls, data):
@@ -273,6 +273,12 @@ class Views(object):
 
                 if value is None:
                     try:
+                        value = data["callback_query"]["from"]["id"]
+                    except KeyError:
+                        value = None
+
+                if value is None:
+                    try:
                         value = data["inline_query"]["from"]["id"]
                     except KeyError:
                         value = None
@@ -284,15 +290,11 @@ class Views(object):
     @classmethod
     def get_caption(cls, data):
         try:
-            if isinstance(data, dict):
-                try:
-                    value = data["message"]["caption"]
-                except KeyError:
-                    value = None
+            value = data["callback_query"]["caption"]
+        except KeyError:
+            value = None
 
-                return value
-        except:
-            pass
+        return value
 
     @classmethod
     def get_product_id(cls, data):

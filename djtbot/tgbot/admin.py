@@ -37,24 +37,9 @@ class ClothesAdmin(admin.ModelAdmin):
         css = {'all': ('css/admin/myadmin.css',)}
 
 
-@admin.register(ParentCategoryClothes)
-class ParentCategoryClothesAdmin(admin.ModelAdmin):
-    pass
-
-
 @admin.register(CategoryPrice)
 class CategoryPriceAdmin(admin.ModelAdmin):
     pass
-
-
-# @admin.register(Buttons)
-# class ButtonsAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(Message)
-# class MessageAdmin(admin.ModelAdmin):
-#     pass
 
 
 @admin.register(Basket)
