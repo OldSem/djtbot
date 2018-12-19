@@ -57,10 +57,14 @@ class Messages(object):
         return "Оставить отзыв"
 
     @classmethod
-    def price(cls):
-        return "<strong>Вы выбрали - Кофты!\n</strong>"\
+    def price(cls, category):
+        return f"<strong>Вы выбрали - {category}!\n</strong>"\
                 "Чтобы просмотреть все имеющиеся товары, нажмите кнопку - <strong>Смотреть все!</strong>"
 
     @classmethod
     def product(cls, product_description):
         return product_description
+
+    @classmethod
+    def no_product(cls):
+        return "<strong>Товара нет в наличии!\n</strong>"
