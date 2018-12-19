@@ -78,6 +78,23 @@ class ClothesManager(object):
 
         return article if article else None
 
+    @classmethod
+    def filter_clothes_for_category(cls, category_id):
+        article = Clothes.objects.filter(category_id=category_id)
+
+        return article if article else None
+
+
+class ClothesCategoryManager(object):
+    @classmethod
+    def get_category_id(cls, category):
+        try:
+            category = CategoryClothes.objects.get(name=category)
+        except CategoryClothes.DoesNotExist:
+            category = None
+
+        return category
+
 
 class BasketManager(object):
     @classmethod

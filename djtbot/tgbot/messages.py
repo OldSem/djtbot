@@ -64,3 +64,7 @@ class Messages(object):
     @classmethod
     def product(cls, product_description):
         return product_description
+
+    @classmethod
+    def no_product(cls):
+        return "<strong>Товара нет в наличии!\n</strong>"

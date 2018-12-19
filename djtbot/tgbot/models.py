@@ -1,19 +1,9 @@
 from django.db import models
 
 
-class ParentCategoryClothes(models.Model):
-    id = models.AutoField(primary_key=True, editable=False)
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
-
-
 class CategoryClothes(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30)
-
-    parent = models.ForeignKey(ParentCategoryClothes, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -92,30 +82,12 @@ class Clothes(models.Model):
     price = models.PositiveSmallIntegerField()
 
     currency = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
-    parent_category = models.ForeignKey(ParentCategoryClothes, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryClothes, on_delete=models.CASCADE)
     male = models.ForeignKey(ClothesMale, on_delete=models.CASCADE)
     country = models.ForeignKey(ClothesCountry, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.article_id
-
-
-# class Buttons(models.Model):
-#     id = models.AutoField(primary_key=True, editable=False)
-#     name = models.CharField(max_length=30, unique=True)
-#     callback_data = models.CharField(max_length=30, unique=True, blank=True, default='')
-#     switch_inline_query_current_chat = models.CharField(max_length=30, unique=True, blank=True, default='')
-#     url = models.URLField(blank=True, default='')
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Message(models.Model):
-#     id = models.AutoField(primary_key=True, editable=False)
-#     name = models.CharField(max_length=30)
-#     text = models.TextField()
 
 
 class Basket(models.Model):
@@ -125,12 +97,3 @@ class Basket(models.Model):
 
     def __str__(self):
         return self.product_id
-
-
-class BasketHistory(models.Model):
-    id = models.AutoField(primary_key=True, editable=False)
-    id_user_in_telegram = models.CharField(max_length=30)
-    product_id = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.id_user_in_telegram

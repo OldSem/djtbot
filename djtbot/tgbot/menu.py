@@ -121,9 +121,10 @@ class Views(object):
         return markup
 
     @classmethod
-    def product(cls, article_id):
+    def product(cls, article_id, category):
         markup = InlineKeyboardMarkup()
         btn.btn46.callback_data = article_id
+        btn.btn47.switch_inline_query_current_chat = category
         markup.add(btn.btn45, btn.btn46)
         markup.add(btn.btn47)
         return markup
