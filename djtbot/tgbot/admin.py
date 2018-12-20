@@ -28,13 +28,14 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Clothes)
 class ClothesAdmin(admin.ModelAdmin):
-    list_display = ('article_id', 'img_top', 'partner', 'is_active', 'male', 'country')
-    list_display_links = ('article_id', 'partner', 'male', 'country')
+    fields = (('partner', 'male', 'currency'),
+              ('category', 'country'),
+              ('img_center', 'img_inline', 'img_bottom'),
+              ('description', 'article_id', 'price', 'markup', 'is_active'))
+
+    list_display = ('article_id', 'img_center', 'partner', 'markup', 'is_active', 'male', 'country')
     list_filter = ('article_id', 'is_active', 'partner')
     search_fields = ['article_id']
-
-    class Media:
-        css = {'all': ('css/admin/myadmin.css',)}
 
 
 @admin.register(CategoryPrice)
@@ -59,4 +60,7 @@ class ClothesCountryAdmin(admin.ModelAdmin):
 
 @admin.register(ClothesPartner)
 class ClothesPartnerAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('name', 'url')
+    list_display_links = ('name', 'url')
+    list_filter = ('name',)
+    search_fields = ['name']

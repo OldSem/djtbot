@@ -22,7 +22,7 @@ class User(models.Model):
     id_user_in_telegram = models.IntegerField(unique=True)
     first_name = models.CharField(max_length=150, null=True)
     last_name = models.CharField(max_length=150, null=True)
-    username = models.CharField(max_length=150, unique=True)
+    username = models.CharField(max_length=150, null=True)
     email = models.EmailField(max_length=255, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

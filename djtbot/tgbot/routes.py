@@ -113,13 +113,24 @@ def see_product_view(data):
 
                 for product in clothe.values():
                     results.append(InlineQueryResultPhoto(
-                        id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
-                        photo_height=30, caption=product['description'], parse_mode='HTML',
-                        reply_markup=view.product(article_id=product['article_id'], category=query))
+                        id=product['article_id'],
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_width=30,
+                        photo_height=30,
+                        caption=product['description'],
+                        parse_mode='HTML',
+                        reply_markup=view.product(article_id=product['article_id'],
+                                                  category=query),
+                        title='Title')
                     )
 
-                return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+                return bot.answer_inline_query(view.chat_id(data),
+                                               results=results,
+                                               cache_time=0,
+                                               next_offset='',
+                                               switch_pm_parameter='text',
+                                               switch_pm_text=f'{category_name} [{len(clothe)}]')
 
             else:
                 return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
@@ -180,10 +191,19 @@ def get_all_product_in_basket(data):
                 for product in prod.values():
 
                     results.append(InlineQueryResultPhoto(
-                        id=product['article_id'], photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_top']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_left']}", photo_width=30,
-                        photo_height=30, caption=product['description'], parse_mode='HTML',
+                        id=product['article_id'],
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_width=30,
+                        photo_height=30,
+                        caption=product['description'],
+                        parse_mode='HTML',
                         reply_markup=view.product(article_id=product['article_id'], category=query))
                     )
 
-        return bot.answer_inline_query(view.chat_id(data), results=results, cache_time=0, next_offset='')
+        return bot.answer_inline_query(view.chat_id(data),
+                                       results=results,
+                                       cache_time=0,
+                                       next_offset='',
+                                       switch_pm_parameter='text',
+                                       switch_pm_text=f'Товары [{len(products)}]')
