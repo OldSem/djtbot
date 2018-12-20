@@ -161,7 +161,8 @@ def see_product_basket(data):
         return bot.send_message(view.chat_id(data), text=message.basket(),
                                 reply_markup=view.see_basket(), parse_mode='HTML')
     else:
-        return bot.send_message(view.chat_id(data), message.basket_not_items(), reply_markup=view.basket())
+        return bot.send_message(view.chat_id(data), message.basket_not_items(),
+                                reply_markup=view.basket(), parse_mode='HTML')
 
 
 def get_all_product_in_basket(data):

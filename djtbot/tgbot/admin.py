@@ -28,9 +28,9 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Clothes)
 class ClothesAdmin(admin.ModelAdmin):
-    list_display = ('article_id', 'img_top', 'is_active', 'male', 'country')
-    list_display_links = ('article_id', 'male', 'country')
-    list_filter = ('article_id', 'is_active')
+    list_display = ('article_id', 'img_top', 'partner', 'is_active', 'male', 'country')
+    list_display_links = ('article_id', 'partner', 'male', 'country')
+    list_filter = ('article_id', 'is_active', 'partner')
     search_fields = ['article_id']
 
     class Media:
@@ -54,4 +54,9 @@ class ClothesMaleAdmin(admin.ModelAdmin):
 
 @admin.register(ClothesCountry)
 class ClothesCountryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ClothesPartner)
+class ClothesPartnerAdmin(admin.ModelAdmin):
     pass

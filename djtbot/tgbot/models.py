@@ -69,20 +69,30 @@ class ClothesCountry(models.Model):
         return self.name
 
 
+class ClothesPartner(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=30, unique=True)
+    url = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+
 class Clothes(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     article_id = models.CharField(max_length=30, unique=True)
-    description = models.TextField(max_length=200)
-    img_top = models.ImageField(upload_to='product_top')
-    img_left = models.ImageField(upload_to='product_left')
-    img_right = models.ImageField(upload_to='product_right')
+    description = models.TextField(max_length=300)
+    img_center = models.ImageField(upload_to='product_top')
+    img_inline = models.ImageField(upload_to='product_left')
     img_bottom = models.ImageField(upload_to='product_bottom')
     created = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=True)
     price = models.PositiveSmallIntegerField()
+    markup = models.PositiveSmallIntegerField()
 
     currency = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryClothes, on_delete=models.CASCADE)
+    partner = models.ForeignKey(ClothesPartner, on_delete=models.CASCADE)
     male = models.ForeignKey(ClothesMale, on_delete=models.CASCADE)
     country = models.ForeignKey(ClothesCountry, on_delete=models.CASCADE)
 
