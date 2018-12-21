@@ -6,7 +6,7 @@ from .menu import Views as v
 from .messages import Messages as msg
 from .buttons import Buttons as b
 from .settings import bot
-from .routes import start_view, country_view, male_view, see_product_view,\
+from .routes import start_view, country_view, male_view, see_product_view, \
     add_product_to_basket, see_product_basket, get_all_product_in_basket
 from .webhooks import Bot
 
@@ -168,7 +168,7 @@ def bot_view(request):
         elif v.get_text(data) == b.btn48.switch_inline_query_current_chat:
             get_all_product_in_basket(data)
 
-        elif v.get_product_id(data) or v.get_product_id(data):
+        elif v.get_product_id(data):
             add_product_to_basket(data)
 
         return HttpResponse('Ok', status=200)

@@ -80,7 +80,7 @@ class ClothesManager(object):
 
     @classmethod
     def filter_clothes_for_category(cls, category_id):
-        article = Clothes.objects.filter(category_id=category_id)
+        article = Clothes.objects.filter(category_id=category_id).order_by('-id')
 
         return article if article else None
 
