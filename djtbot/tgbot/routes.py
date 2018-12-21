@@ -113,7 +113,7 @@ def see_product_view(data):
 
                 for product in clothe.values():
                     results.append(InlineQueryResultPhoto(
-                        id=product['article_id'],
+                        id=product['id'],
                         photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
                         thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
@@ -129,7 +129,7 @@ def see_product_view(data):
                                                results=results,
                                                cache_time=0,
                                                next_offset='',
-                                               switch_pm_parameter='text',
+                                               switch_pm_parameter='products',
                                                switch_pm_text=f'{category_name} [{len(clothe)}]')
 
             else:
@@ -191,7 +191,7 @@ def get_all_product_in_basket(data):
                 for product in prod.values():
 
                     results.append(InlineQueryResultPhoto(
-                        id=product['article_id'],
+                        id=product['id'],
                         photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
                         thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
@@ -205,5 +205,5 @@ def get_all_product_in_basket(data):
                                        results=results,
                                        cache_time=0,
                                        next_offset='',
-                                       switch_pm_parameter='text',
+                                       switch_pm_parameter='basket',
                                        switch_pm_text=f'Товары [{len(products)}]')
