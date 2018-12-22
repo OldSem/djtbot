@@ -107,3 +107,11 @@ class Basket(models.Model):
 
     def __str__(self):
         return self.product_id
+
+class SystemFoto(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    name = models.CharField(max_length=30)
+    img = models.ImageField(upload_to='system_foto')
+
+    def __str__(self):
+        return self.name

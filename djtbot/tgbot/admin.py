@@ -64,3 +64,8 @@ class ClothesPartnerAdmin(admin.ModelAdmin):
     list_display_links = ('name', 'url')
     list_filter = ('name',)
     search_fields = ['name']
+
+
+@admin.register(SystemFoto)
+class SystemFotoAdmin(admin.ModelAdmin):
+    pass

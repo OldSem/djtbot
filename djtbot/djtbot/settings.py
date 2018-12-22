@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'djtbot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'bot'),
-        'USER': os.environ.get('DB_USER', 'advbot'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', '11bot22'),
+        'NAME': os.environ.get('DB_NAME', 'test_bot'),
+        'USER': os.environ.get('DB_USER', 'test_advbot'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'test_11bot22'),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }

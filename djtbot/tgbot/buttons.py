@@ -61,4 +61,4 @@ class Buttons(object):
     btn45 = InlineKeyboardButton(text='Заказать', url=url)
     btn46 = InlineKeyboardButton(text='Корзина')
     btn47 = InlineKeyboardButton(text='Назад')
-    btn48 = InlineKeyboardButton(text="Смотреть", switch_inline_query_current_chat='#корзина')
+    btn48 = InlineKeyboardButton(text="Смотреть!", switch_inline_query_current_chat='#корзина')
