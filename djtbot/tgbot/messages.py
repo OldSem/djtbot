@@ -52,7 +52,7 @@ class Messages(object):
 
     @classmethod
     def reviews(cls):
-        return "Оставить отзыв"
+        return "Оставить отзыв https://comments.bot/thread/HJO5kQInz"
 
     @classmethod
     def price(cls, category):

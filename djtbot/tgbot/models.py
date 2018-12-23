@@ -27,10 +27,10 @@ class User(models.Model):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_bot = models.BooleanField(default=False)
-    created = models.DateField(auto_now=True)
+    created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.username
+        return self.first_name
 
 
 class Male(models.Model):
@@ -108,6 +108,7 @@ class Basket(models.Model):
     def __str__(self):
         return self.product_id
 
+
 class SystemFoto(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30)
@@ -115,3 +116,28 @@ class SystemFoto(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Orders(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user_id = models.IntegerField(null=True)
+    first_name = models.CharField(max_length=150, null=True)
+    article_id = models.CharField(max_length=30, null=True)
+    partner = models.CharField(max_length=30, null=True)
+    markup = models.PositiveSmallIntegerField(null=True)
+    price = models.PositiveSmallIntegerField(null=True)
+    name = models.CharField(max_length=150)
+    city = models.CharField(max_length=50)
+    post_office = models.CharField(max_length=150)
+    department = models.CharField(max_length=150)
+    phone = models.CharField(max_length=30)
+    size = models.CharField(max_length=30)
+    tnt = models.CharField(max_length=30)
+    have_ordered = models.BooleanField(default=False)
+    sent = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.article_id
+

@@ -112,7 +112,8 @@ class Views(object):
 
     @classmethod
     def to_share(cls):
-        markup = ReplyKeyboardMarkup()
+        markup = InlineKeyboardMarkup()
+        markup.add(btn.btn49)
         return markup
 
     @classmethod

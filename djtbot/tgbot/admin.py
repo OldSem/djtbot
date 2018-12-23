@@ -23,7 +23,10 @@ class CountryAdmin(admin.ModelAdmin):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('first_name', 'created')
+    date_hierarchy = 'created'
+    list_filter = ('first_name',)
+    search_fields = ['first_name']
 
 
 @admin.register(Clothes)
@@ -68,4 +71,9 @@ class ClothesPartnerAdmin(admin.ModelAdmin):
 
 @admin.register(SystemFoto)
 class SystemFotoAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Orders)
+class OrdersAdmin(admin.ModelAdmin):
     pass

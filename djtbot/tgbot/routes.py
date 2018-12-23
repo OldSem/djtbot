@@ -224,10 +224,20 @@ def get_all_product_in_basket(data):
 def get_product(data, text):
     try:
         img = SystemPhotoManager.get_product_img()
-        bot.send_photo(view.chat_id(data),
-                       photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
-                       caption=message.price(text),
-                       reply_markup=view.price(text),
-                       parse_mode='HTML')
+        if getattr(img, 'img'):
+
+            return bot.send_photo(view.chat_id(data),
+                                  photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
+                                  caption=message.price(text),
+                                  reply_markup=view.price(text),
+                                  parse_mode='HTML')
     except AttributeError:
         print('System Photo Product None')
+    else:
+        return bot.send_message(view.chat_id(data), message.price(text),
+                                reply_markup=view.price(text), parse_mode='HTML')
+
+
+def to_share(data):
+    return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
+                            reply_markup=view.to_share(), parse_mode='HTML')

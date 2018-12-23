@@ -3,7 +3,7 @@ from .messages import Messages as msg
 from .buttons import Buttons as b
 from .settings import bot
 from .routes import start_view, country_view, male_view, see_product_view, \
-    add_product_to_basket, see_product_basket, get_all_product_in_basket, get_product
+    add_product_to_basket, see_product_basket, get_all_product_in_basket, get_product, to_share
 
 
 def view(data):
@@ -35,8 +35,7 @@ def view(data):
         return bot.send_message(v.chat_id(data), msg.reviews(), reply_markup=v.reviews())
 
     elif v.get_text(data) == b.btn11.text:
-        return bot.send_message(v.chat_id(data), msg.to_share(), reply_markup=v.to_share(),
-                         parse_mode='HTML')
+        return to_share(data)
 
     elif v.get_text(data) == b.btn12.text:
         return see_product_basket(data)
@@ -133,5 +132,5 @@ def view(data):
 
 
 def bot_error(data):
-    return bot.send_message(v.user_id(data), msg.no_product(),
+    return bot.answer_callback_query(v.user_id(data), msg.no_product(),
                             reply_markup=v.menu(), parse_mode='HTML')
