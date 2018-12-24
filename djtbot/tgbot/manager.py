@@ -123,3 +123,23 @@ class BasketManager(object):
         product = Basket.objects.filter(id_user_in_telegram=user_id)
 
         return product if product else None
+
+
+class SystemPhotoManager(object):
+    @classmethod
+    def get_product_img(cls):
+        try:
+            result = SystemFoto.objects.get(id=2)
+        except SystemFoto.DoesNotExist:
+            result = None
+
+        return result
+
+    @classmethod
+    def get_basket_photo(cls):
+        try:
+            result = SystemFoto.objects.get(id=1)
+        except SystemFoto.DoesNotExist:
+            result = None
+
+        return result

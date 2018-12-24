@@ -1,6 +1,6 @@
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
     ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
-    ClothesCategoryManager
+    ClothesCategoryManager, SystemPhotoManager
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
@@ -169,8 +169,20 @@ def see_product_basket(data):
             product_list.append(product['product_id'])
 
     if len(product_list) > 0:
-        return bot.send_message(view.chat_id(data), text=message.basket(),
-                                reply_markup=view.see_basket(), parse_mode='HTML')
+        try:
+            img = SystemPhotoManager.get_basket_photo()
+
+            if getattr(img, 'img'):
+                return bot.send_photo(view.chat_id(data),
+                                      photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
+                                      caption=message.basket(),
+                                      reply_markup=view.see_basket(),
+                                      parse_mode='HTML')
+        except AttributeError:
+            print('System Photo Product None')
+        else:
+            return bot.send_message(view.chat_id(data), text=message.basket(),
+                                    reply_markup=view.see_basket(), parse_mode='HTML')
     else:
         return bot.send_message(view.chat_id(data), message.basket_not_items(),
                                 reply_markup=view.basket(), parse_mode='HTML')
@@ -207,3 +219,25 @@ def get_all_product_in_basket(data):
                                        next_offset='',
                                        switch_pm_parameter='basket',
                                        switch_pm_text=f'Товары [{len(products)}]')
+
+
+def get_product(data, text):
+    try:
+        img = SystemPhotoManager.get_product_img()
+        if getattr(img, 'img'):
+
+            return bot.send_photo(view.chat_id(data),
+                                  photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
+                                  caption=message.price(text),
+                                  reply_markup=view.price(text),
+                                  parse_mode='HTML')
+    except AttributeError:
+        print('System Photo Product None')
+    else:
+        return bot.send_message(view.chat_id(data), message.price(text),
+                                reply_markup=view.price(text), parse_mode='HTML')
+
+
+def to_share(data):
+    return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
+                            reply_markup=view.to_share(), parse_mode='HTML')

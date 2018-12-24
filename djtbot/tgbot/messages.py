@@ -1,7 +1,7 @@
 class Messages(object):
     @classmethod
     def start(cls):
-        return "Здравствуйте.\n\n<strong>Меня зовут Rossi!</strong>\nЯ бот который поможет вам найти нужную одежду," \
+        return "Здравствуйте.\n\n<strong>Меня зовут Rosie!</strong>\nЯ бот который поможет вам найти нужную одежду," \
                " обувь и другие аксессуары. Меня разработали для того," \
                " чтобы предоставить вам сервис до сих пор не виденного уровня.\n\n" \
                "Скоро я стану ещё лучше, и смогу подбирать вам одежду под ваш вкус!"
@@ -47,12 +47,12 @@ class Messages(object):
 
     @classmethod
     def to_share(cls):
-        return "@Shoppi_bot - <strong>Меня зовут Rossi.</strong> " \
+        return "@Shoppi_bot - <strong>Меня зовут Rosie.</strong> " \
                "Я бот который поможет вам найти нужную одежду, обувь и другие аксессуары!"
 
     @classmethod
     def reviews(cls):
-        return "Оставить отзыв"
+        return "Оставить отзыв https://comments.bot/thread/HJO5kQInz"
 
     @classmethod
     def price(cls, category):
