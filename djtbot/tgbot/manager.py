@@ -68,19 +68,19 @@ class ManagerUserTypes(object):
 class ClothesManager(object):
     @classmethod
     def get_clothes_all(cls):
-        clothes = Clothes.objects.all()
+        clothes = Clothe.objects.all()
 
         return clothes if clothes else None
 
     @classmethod
     def get_clothes(cls, article_id):
-        article = Clothes.objects.filter(article_id=article_id)
+        article = Clothe.objects.filter(article_id=article_id)
 
         return article if article else None
 
     @classmethod
     def filter_clothes_for_category(cls, category_id):
-        article = Clothes.objects.filter(category_id=category_id).order_by('-id')
+        article = Clothe.objects.filter(category_id=category_id).order_by('-id')
 
         return article if article else None
 
@@ -89,8 +89,8 @@ class ClothesCategoryManager(object):
     @classmethod
     def get_category_id(cls, category):
         try:
-            category = CategoryClothes.objects.get(name=category)
-        except CategoryClothes.DoesNotExist:
+            category = CategoryClothe.objects.get(name=category)
+        except CategoryClothe.DoesNotExist:
             category = None
 
         return category
@@ -129,8 +129,8 @@ class SystemPhotoManager(object):
     @classmethod
     def get_product_img(cls):
         try:
-            result = SystemFoto.objects.get(id=2)
-        except SystemFoto.DoesNotExist:
+            result = SystemPhoto.objects.get(id=2)
+        except SystemPhoto.DoesNotExist:
             result = None
 
         return result
@@ -138,8 +138,8 @@ class SystemPhotoManager(object):
     @classmethod
     def get_basket_photo(cls):
         try:
-            result = SystemFoto.objects.get(id=1)
-        except SystemFoto.DoesNotExist:
+            result = SystemPhoto.objects.get(id=1)
+        except SystemPhoto.DoesNotExist:
             result = None
 
         return result
