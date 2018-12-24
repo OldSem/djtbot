@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d9a0*ic+=10$*1'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d9a0*ic+=10$*1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
 
 HOST = os.environ.get('HOST', 'localhost')
 
@@ -77,23 +77,23 @@ WSGI_APPLICATION = 'djtbot.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': os.environ.get('DB_NAME', 'bot'),
-#         'USER': os.environ.get('DB_USER', 'advbot'),
-#         'PASSWORD': os.environ.get('DB_PASSWORD', '11bot22'),
-#         'HOST': os.environ.get('DB_HOST', 'localhost'),
-#         'PORT': os.environ.get('DB_PORT', '5432'),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME', 'test_bot'),
+        'USER': os.environ.get('DB_USER', 'test_advbot'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'test_11bot22'),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
