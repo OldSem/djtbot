@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 
-@admin.register(CategoryClothes)
+@admin.register(CategoryClothe)
 class CategoryClothesAdmin(admin.ModelAdmin):
     pass
 
@@ -29,7 +29,7 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ['first_name']
 
 
-@admin.register(Clothes)
+@admin.register(Clothe)
 class ClothesAdmin(admin.ModelAdmin):
     fields = (('partner', 'male', 'currency'),
               ('category', 'country'),
@@ -51,17 +51,17 @@ class BasketAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ClothesMale)
+@admin.register(ClotheMale)
 class ClothesMaleAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ClothesCountry)
+@admin.register(ClotheCountry)
 class ClothesCountryAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ClothesPartner)
+@admin.register(ClothePartner)
 class ClothesPartnerAdmin(admin.ModelAdmin):
     list_display = ('name', 'url')
     list_display_links = ('name', 'url')
@@ -69,11 +69,11 @@ class ClothesPartnerAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-@admin.register(SystemFoto)
+@admin.register(SystemPhoto)
 class SystemFotoAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Orders)
+@admin.register(Order)
 class OrdersAdmin(admin.ModelAdmin):
     pass
