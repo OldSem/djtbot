@@ -180,7 +180,6 @@ def see_product_basket(data):
                                       parse_mode='HTML')
         except AttributeError:
             print('System Photo Product None')
-        else:
             return bot.send_message(view.chat_id(data), text=message.basket(),
                                     reply_markup=view.see_basket(), parse_mode='HTML')
     else:
@@ -233,7 +232,6 @@ def get_product(data, text):
                                   parse_mode='HTML')
     except AttributeError:
         print('System Photo Product None')
-    else:
         return bot.send_message(view.chat_id(data), message.price(text),
                                 reply_markup=view.price(text), parse_mode='HTML')
 
