@@ -1,12 +1,14 @@
+from prompt_toolkit.widgets import Button
+
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
     ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
-    ClothesCategoryManager, SystemPhotoManager
+    ClothesCategoryManager, SystemPhotoManager, OrderManager
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
-from .buttons import Buttons as button
+from .buttons import Buttons as button, Buttons, Url
 from django.conf import settings
-from telebot.types import InlineQueryResultPhoto
+from telebot.types import InlineQueryResultPhoto, InlineKeyboardMarkup
 
 
 def start_view(data):
@@ -149,14 +151,15 @@ def add_product_to_basket(data):
 
     if basket.get(id_user_in_telegram=user_id, product_id=product_id):
         basket.del_product(id_user_in_telegram=user_id, product_id=product_id)
-
-        return bot.send_message(view.chat_id(data), message.basket_remove_product(product_id),
-                                reply_markup=view.basket(), parse_mode='HTML')
+        return bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
+                                         show_alert=True,
+                                         text=message.basket_remove_product(product_id))
     else:
         basket.add(user_id=user_id, product_id=product_id)
 
-        return bot.send_message(view.chat_id(data), message.basket_add_product(product_id),
-                                reply_markup=view.basket(), parse_mode='HTML')
+        return bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
+                                         show_alert=True,
+                                         text=message.basket_add_product(product_id))
 
 
 def see_product_basket(data):
@@ -239,3 +242,27 @@ def get_product(data, text):
 def to_share(data):
     return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
                             reply_markup=view.to_share(), parse_mode='HTML')
+
+
+def order(data):
+    user_id = view.user_id(data)
+    user = user_manager.is_user(user_id=user_id)
+    product_id = view.get_product_id(data).split(',')[0]
+    product = clothes.get(article_id=product_id)
+    OrderManager.add(user_id=user,
+                     first_name=user.first_name,
+                     article_id=product,
+                     price=product.price,
+                     markup=product.markup)
+
+    bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
+                              show_alert=True,
+                              text=message.order())
+
+    return bot.send_message(view.chat_id(data), text=message.to_manager(),
+                            reply_markup=view.order(), parse_mode='HTML')
+
+
+def reviews(data):
+    return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
+                            reply_markup=view.reviews(), parse_mode='HTML')

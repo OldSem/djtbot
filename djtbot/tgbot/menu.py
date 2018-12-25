@@ -1,4 +1,4 @@
-from .buttons import Buttons as btn
+from .buttons import Buttons as btn, Url
 from telebot.types import ReplyKeyboardMarkup, InlineKeyboardMarkup
 
 
@@ -118,16 +118,24 @@ class Views(object):
 
     @classmethod
     def reviews(cls):
-        markup = ReplyKeyboardMarkup()
+        markup = InlineKeyboardMarkup()
+        markup.add(btn.btn51)
         return markup
 
     @classmethod
-    def product(cls, article_id, category):
+    def product(cls, article_id, category, user_id=None):
         markup = InlineKeyboardMarkup()
+        btn.btn45.callback_data = f'{article_id}, {user_id}'
         btn.btn46.callback_data = article_id
         btn.btn47.switch_inline_query_current_chat = category
         markup.add(btn.btn45, btn.btn46)
         markup.add(btn.btn47)
+        return markup
+
+    @classmethod
+    def order(cls):
+        markup = InlineKeyboardMarkup()
+        markup.add(btn.btn50)
         return markup
 
     @classmethod
@@ -311,4 +319,13 @@ class Views(object):
             value = data['message']['photo']
         except KeyError:
             value = None
+        return value
+
+    @classmethod
+    def get_inline_query_id(cls, data):
+        try:
+            value = data["callback_query"]["id"]
+        except KeyError:
+            value = None
+
         return value
