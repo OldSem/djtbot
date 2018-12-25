@@ -79,6 +79,15 @@ class ClothesManager(object):
         return article if article else None
 
     @classmethod
+    def get(cls, article_id):
+        try:
+            article = Clothe.objects.get(article_id=article_id)
+        except Clothe.DoesNotExist:
+            article = None
+
+        return article
+
+    @classmethod
     def filter_clothes_for_category(cls, category_id):
         article = Clothe.objects.filter(category_id=category_id).order_by('-id')
 
@@ -143,3 +152,16 @@ class SystemPhotoManager(object):
             result = None
 
         return result
+
+
+class OrderManager(object):
+    @classmethod
+    def add(cls, user_id, article_id, first_name, price, markup):
+        order = Order.objects.create(
+            user=user_id,
+            article=article_id,
+            first_name=first_name,
+            price=price,
+            markup=markup)
+        order.save()
+

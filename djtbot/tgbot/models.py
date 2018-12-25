@@ -126,18 +126,18 @@ class Order(models.Model):
     first_name = models.CharField(max_length=150)
     markup = models.PositiveSmallIntegerField(null=True, default=0)
     price = models.PositiveSmallIntegerField(null=True, default=0)
-    name = models.CharField(max_length=150)
-    city = models.CharField(max_length=50)
-    post_office = models.CharField(max_length=150)
-    department = models.CharField(max_length=150)
-    phone = models.CharField(max_length=30)
-    size = models.CharField(max_length=30)
-    tnt = models.CharField(max_length=30)
+    name = models.CharField(max_length=150, null=True)
+    city = models.CharField(max_length=50, null=True)
+    post_office = models.CharField(max_length=150, null=True)
+    department = models.CharField(max_length=150, null=True)
+    phone = models.CharField(max_length=30, null=True)
+    size = models.CharField(max_length=30, null=True)
+    tnt = models.CharField(max_length=30, null=True)
     have_ordered = models.BooleanField(default=False)
     sent = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.article_id
+        return self.user.first_name
 

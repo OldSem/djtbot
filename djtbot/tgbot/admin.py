@@ -76,4 +76,7 @@ class SystemFotoAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrdersAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('first_name', 'article', 'created', 'price', 'markup')
+    date_hierarchy = 'created'
+    list_filter = ('first_name', 'sent', 'have_ordered', 'paid')
+    search_fields = ['first_name']

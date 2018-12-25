@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from pprint import pprint
 from django.views.decorators.csrf import csrf_exempt
 import json
-
+from django.conf import settings
 from .bot_view import view, bot_error
 from .exeptions import BotError
 from .webhooks import Bot
@@ -19,6 +19,9 @@ def bot_view(request):
         data = json.loads(request.body.decode('utf-8'))
         pprint(data)
 
+        if settings.DEBUG:
+            view(data)
+            return HttpResponse('Ok', status=200)
         try:
             view(data)
         except BotError as e:
