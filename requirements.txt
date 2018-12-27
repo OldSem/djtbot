@@ -5,6 +5,7 @@ decorator==4.3.0
 Django==2.1.4
 django-js-asset==1.1.0
 django-mptt==0.9.1
+gunicorn==19.9.0
 idna==2.7
 ipython==7.2.0
 ipython-genutils==0.2.0
