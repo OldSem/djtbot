@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name robosapiens.tk www.robosapiens.tk;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/adv/djtbot/djtbot;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/adv/djtbot/djtbot/djtbot.sock;
+    }
+}

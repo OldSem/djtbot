@@ -29,7 +29,7 @@ HOST = os.environ.get('HOST', '')
 
 DOMAIN = f'https://{HOST}'
 
-ALLOWED_HOSTS = [HOST, 'localhost', '46.101.211.123']
+ALLOWED_HOSTS = [HOST, 'localhost', '46.101.211.123', 'robosapiens.tk']
 
 # Application definition
 
