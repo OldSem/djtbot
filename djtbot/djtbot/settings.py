@@ -138,3 +138,5 @@ MEDIA_URL = '/media/'
 TELEGRAM_URL = 'https://api.telegram.org'
 
 TOKEN = os.environ.get('TOKEN', '642688157:AAG46d_O03qa9MSxtaYzGXw3gjL3nBNS-Ak')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
