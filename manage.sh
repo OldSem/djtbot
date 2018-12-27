@@ -10,4 +10,4 @@ export LMS_DB_NAME=elms_${PROJECT_NAME}_bot
 export LMS_DB_USER=${PROJECT_NAME}_advbot
 export LMS_DB_PASSWORD=${PROJECT_NAME}_11bot22
 export LMS_DB_SERVER=localhost
-python djbot/manage.py $1 $2
+python djtbot/manage.py $1 $2
