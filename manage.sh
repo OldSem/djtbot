@@ -2,8 +2,8 @@
 source venv/bin/activate
 export PYTHONPATH=$PWD:$PYTHONPATH
 
-export TOKEN=768289439:AAERK5Cj5RqyZ6yjbOcWOk-_lCTsW2o6OTU
-export HOST=f3c67f50.ngrok.io
+export TOKEN=768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ
+export HOST=robosapiens.tk
 
 PROJECT_NAME=test
 
