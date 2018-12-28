@@ -29,7 +29,7 @@ HOST = os.environ.get('HOST', 'robosapiens.tk')
 
 DOMAIN = f'https://{HOST}'
 
-ALLOWED_HOSTS = [HOST, 'localhost', '46.101.211.123', 'robosapiens.tk']
+ALLOWED_HOSTS = [HOST, 'localhost', '46.101.211.123']
 
 # Application definition
 
@@ -137,6 +137,6 @@ MEDIA_URL = '/media/'
 
 TELEGRAM_URL = 'https://api.telegram.org'
 
-TOKEN = os.environ.get('TOKEN', '642688157:AAG46d_O03qa9MSxtaYzGXw3gjL3nBNS-Ak')
+TOKEN = os.environ.get('TOKEN', '768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
