@@ -138,7 +138,7 @@ class SystemPhotoManager(object):
     @classmethod
     def get_product_img(cls):
         try:
-            result = SystemPhoto.objects.get(id=2)
+            result = SystemPhoto.objects.get(name='шмотки')
         except SystemPhoto.DoesNotExist:
             result = None
 
@@ -147,7 +147,7 @@ class SystemPhotoManager(object):
     @classmethod
     def get_basket_photo(cls):
         try:
-            result = SystemPhoto.objects.get(id=1)
+            result = SystemPhoto.objects.get(name='корзина')
         except SystemPhoto.DoesNotExist:
             result = None
 

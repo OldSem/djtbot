@@ -226,12 +226,11 @@ def get_product(data, text):
         img = SystemPhotoManager.get_product_img()
         if getattr(img, 'img'):
 
-            r = bot.send_photo(view.chat_id(data),
+            return bot.send_photo(view.chat_id(data),
                                   photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
                                   caption=message.price(text),
                                   reply_markup=view.price(text),
                                   parse_mode='HTML')
-            return r
     except AttributeError:
         print('System Photo Product None')
         return bot.send_message(view.chat_id(data), message.price(text),
