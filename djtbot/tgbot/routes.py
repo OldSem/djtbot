@@ -114,8 +114,8 @@ def see_product_view(data):
                 for product in clothe.values():
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -204,8 +204,8 @@ def get_all_product_in_basket(data):
 
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -226,11 +226,12 @@ def get_product(data, text):
         img = SystemPhotoManager.get_product_img()
         if getattr(img, 'img'):
 
-            return bot.send_photo(view.chat_id(data),
+            r = bot.send_photo(view.chat_id(data),
                                   photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
                                   caption=message.price(text),
                                   reply_markup=view.price(text),
                                   parse_mode='HTML')
+            return r
     except AttributeError:
         print('System Photo Product None')
         return bot.send_message(view.chat_id(data), message.price(text),

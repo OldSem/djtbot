@@ -17,10 +17,8 @@ set_bot.set_webhook()
 def bot_view(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
+        pprint(data)
         try:
-            if settings.DEBUG:
-                view(data)
-                pprint(data)
             view(data)
         except BotError as e:
             print(str(e))
