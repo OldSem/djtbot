@@ -1,14 +1,12 @@
-from prompt_toolkit.widgets import Button
-
 from .manager import UserManager as user_manager, ManagerUserCity as city,\
     ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
     ClothesCategoryManager, SystemPhotoManager, OrderManager
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
-from .buttons import Buttons as button, Buttons, Url
+from .buttons import Buttons as button
 from django.conf import settings
-from telebot.types import InlineQueryResultPhoto, InlineKeyboardMarkup
+from telebot.types import InlineQueryResultPhoto
 
 
 def start_view(data):
@@ -116,8 +114,8 @@ def see_product_view(data):
                 for product in clothe.values():
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -206,8 +204,8 @@ def get_all_product_in_basket(data):
 
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['media']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
