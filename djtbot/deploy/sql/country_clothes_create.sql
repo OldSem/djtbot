@@ -1,3 +1,3 @@
-insert into tgbot_clothescountry (name) values ('Украина');
+insert into tgbot_clothecountry (name) values ('Украина');
 
-insert into tgbot_clothescountry (name) values ('Россия');
+insert into tgbot_clothecountry (name) values ('Россия');

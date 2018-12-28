@@ -1,3 +1,3 @@
-insert into tgbot_clothesmale(name) values ('Мужской');
+insert into tgbot_clothemale(name) values ('Мужской');
 
-insert into tgbot_clothesmale(name) values ('Женский');
+insert into tgbot_clothemale(name) values ('Женский');
