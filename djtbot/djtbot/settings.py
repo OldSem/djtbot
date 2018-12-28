@@ -141,4 +141,4 @@ TOKEN = os.environ.get('TOKEN', '768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = BASE_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
