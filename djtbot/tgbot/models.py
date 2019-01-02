@@ -82,9 +82,9 @@ class Clothe(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     article_id = models.CharField(max_length=30, unique=True)
     description = models.TextField(max_length=300)
-    img_center = models.ImageField()
-    img_inline = models.ImageField()
-    img_bottom = models.ImageField()
+    img_center = models.ImageField(upload_to='images')
+    img_inline = models.ImageField(upload_to='images')
+    img_bottom = models.ImageField(upload_to='images')
     created = models.DateField(auto_now=True)
     is_active = models.BooleanField(default=True)
     price = models.PositiveSmallIntegerField()
@@ -112,7 +112,7 @@ class Basket(models.Model):
 class SystemPhoto(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30)
-    img = models.ImageField()
+    img = models.ImageField(upload_to='images')
 
     def __str__(self):
         return self.name
