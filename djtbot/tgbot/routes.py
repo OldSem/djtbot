@@ -120,7 +120,7 @@ def see_product_view(data):
                         photo_height=30,
                         caption=product['description'],
                         # problem parse HTML description of products
-                        #parse_mode='HTML',
+                        parse_mode='HTML',
                         reply_markup=view.product(article_id=product['article_id'],
                                                   category=query),
                         title='Title')
