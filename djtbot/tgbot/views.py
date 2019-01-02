@@ -13,7 +13,7 @@ set_bot.set_webhook()
 
 @csrf_exempt
 def bot_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST' or request.method == 'GET':
         data = json.loads(request.body.decode('utf-8'))
         pprint(data)
         # try:
