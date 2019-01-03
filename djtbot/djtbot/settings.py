@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d9a0*ic+=10$*1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = os.environ.get('DEBUG', False)
 
 HOST = os.environ.get('HOST', 'robosapiens.tk')
 
@@ -135,10 +135,17 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_DIRS = [STATIC_DIR]
+
+MEDIA_ROOT = MEDIA_DIR
+
+STATIC_ROOT = "/home/adv/robosapiens.tk/static/"
+
+# Token Telegram Bot and Url Api
 TELEGRAM_URL = 'https://api.telegram.org'
 
 TOKEN = os.environ.get('TOKEN', '768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]

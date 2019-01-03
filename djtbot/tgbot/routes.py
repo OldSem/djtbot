@@ -114,8 +114,8 @@ def see_product_view(data):
                 for product in clothe.values():
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -175,7 +175,7 @@ def see_product_basket(data):
 
             if getattr(img, 'img'):
                 return bot.send_photo(view.chat_id(data),
-                                      photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
+                                      photo=f"{settings.DOMAIN}{img.img.url}",
                                       caption=message.basket(),
                                       reply_markup=view.see_basket(),
                                       parse_mode='HTML')
@@ -204,8 +204,8 @@ def get_all_product_in_basket(data):
 
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
