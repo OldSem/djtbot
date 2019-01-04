@@ -134,12 +134,17 @@ def see_product_view(data):
                         title='Title')
                     )
                 logger_djtbot.info('return query inline mode')
-                return bot.answer_inline_query(view.chat_id(data),
+
+                if len(results) > 0:
+                    return bot.answer_inline_query(view.chat_id(data),
                                                results=results,
                                                cache_time=0,
                                                next_offset='',
                                                switch_pm_parameter='products',
                                                switch_pm_text=f'{category_name} [{len(clothe)}]')
+                else:
+                    return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
+                                            parse_mode='HTML')
 
             else:
                 logger_djtbot.info('clothes not in db')
