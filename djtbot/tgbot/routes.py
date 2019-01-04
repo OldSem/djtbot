@@ -99,6 +99,10 @@ def get_category_id_in_query(query):
     return None
 
 
+def format_image_url(img):
+    return "{0}{1}{2}".format(settings.DOMAIN, settings.MEDIA_URL, img)
+
+
 def see_product_view(data):
     query = view.get_text(data)
     category_name = get_category_id_in_query(query)
@@ -119,8 +123,8 @@ def see_product_view(data):
                     logger_djtbot.info('add product to arrays')
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=format_image_url(product['img_center']),
+                        thumb_url=format_image_url(product['img_inline']),
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -215,8 +219,8 @@ def get_all_product_in_basket(data):
 
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                        photo_url=format_image_url(product['img_center']),
+                        thumb_url=format_image_url(product['img_inline']),
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -238,7 +242,7 @@ def get_product(data, text):
     if img:
         logger_djtbot.info('Product image yes')
         result = bot.send_photo(view.chat_id(data),
-                                  photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
+                                  photo=f"{settings.DOMAIN}{img.img.url}",
                                   caption=message.price(text),
                                   reply_markup=view.price(text),
                                   parse_mode='HTML')

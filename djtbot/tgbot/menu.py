@@ -331,9 +331,9 @@ class Views(object):
         return value
 
     @classmethod
-    def error(cls, data):
+    def error_code(cls, data):
         try:
-            value = data["ok"]
+            value = data["error_code"]
         except KeyError:
             value = None
 
