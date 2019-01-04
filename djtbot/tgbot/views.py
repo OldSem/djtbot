@@ -13,9 +13,9 @@ from django.http import Http404
 from django.shortcuts import render
 
 
-# set_bot = Bot()
-# set_bot.delete_webhook()
-# set_bot.set_webhook()
+set_bot = Bot()
+set_bot.delete_webhook()
+set_bot.set_webhook()
 
 
 def start(request):
