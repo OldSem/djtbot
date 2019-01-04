@@ -247,7 +247,7 @@ def get_product(data, text):
     if img:
         logger_djtbot.info('Product image yes')
         result = bot.send_photo(view.chat_id(data),
-                                  photo=f"{settings.DOMAIN}{img.img.url}",
+                                  photo=open(img.img.path, 'rb'),
                                   caption=message.price(text),
                                   reply_markup=view.price(text),
                                   parse_mode='HTML')
