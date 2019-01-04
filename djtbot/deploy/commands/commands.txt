@@ -1,11 +1,9 @@
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
 sudo systemctl status gunicorn
-sudo journalctl -u gunicorn
 
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn
-
 
 
 sudo nginx -t
@@ -15,6 +13,7 @@ sudo systemctl restart nginx
 sudo ufw delete allow 8000
 sudo ufw allow 'Nginx Full'
 
+sudo journalctl -u gunicorn
 sudo tail -F /var/log/nginx/error.log
 
 sudo systemctl status postgresql

@@ -7,6 +7,7 @@ from .messages import Messages as message
 from .buttons import Buttons as button
 from django.conf import settings
 from telebot.types import InlineQueryResultPhoto
+from .logger import logger_djtbot
 
 
 def start_view(data):
@@ -103,19 +104,23 @@ def see_product_view(data):
     category_name = get_category_id_in_query(query)
 
     if category_name:
+        logger_djtbot.info('Category name {}'.format(category_name))
         category = ClothesCategoryManager.get_category_id(category=category_name)
 
         if category:
+            logger_djtbot.info('category yes in db')
             clothe = clothes.filter_clothes_for_category(category_id=category.id)
 
             if clothe:
+                logger_djtbot.info('clothes yes in db')
                 results = []
 
                 for product in clothe.values():
+                    logger_djtbot.info('add product to arrays')
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -124,7 +129,7 @@ def see_product_view(data):
                                                   category=query),
                         title='Title')
                     )
-
+                logger_djtbot.info('return query inline mode')
                 return bot.answer_inline_query(view.chat_id(data),
                                                results=results,
                                                cache_time=0,
@@ -133,13 +138,16 @@ def see_product_view(data):
                                                switch_pm_text=f'{category_name} [{len(clothe)}]')
 
             else:
+                logger_djtbot.info('clothes not in db')
                 return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
                                         parse_mode='HTML')
 
         else:
+            logger_djtbot.info('category not in db')
             return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
 
     else:
+        logger_djtbot.info('not product')
         return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
 
 
@@ -148,13 +156,16 @@ def add_product_to_basket(data):
     product_id = view.get_product_id(data)
 
     if basket.get(id_user_in_telegram=user_id, product_id=product_id):
+        logger_djtbot.info('Product in basket')
         basket.del_product(id_user_in_telegram=user_id, product_id=product_id)
+        logger_djtbot.info('Delete product in basket')
         return bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
                                          show_alert=True,
                                          text=message.basket_remove_product(product_id))
     else:
+        logger_djtbot.info('Not this product in basket')
         basket.add(user_id=user_id, product_id=product_id)
-
+        logger_djtbot.info('Add product in basket')
         return bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
                                          show_alert=True,
                                          text=message.basket_add_product(product_id))
@@ -204,8 +215,8 @@ def get_all_product_in_basket(data):
 
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{product['img_inline']}",
+                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
                         photo_width=30,
                         photo_height=30,
                         caption=product['description'],
@@ -222,17 +233,19 @@ def get_all_product_in_basket(data):
 
 
 def get_product(data, text):
-    try:
-        img = SystemPhotoManager.get_product_img()
-        if getattr(img, 'img'):
+    img = SystemPhotoManager.get_product_img()
 
-            return bot.send_photo(view.chat_id(data),
+    if img.img:
+        logger_djtbot.info('Product image yes')
+        result = bot.send_photo(view.chat_id(data),
                                   photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
                                   caption=message.price(text),
                                   reply_markup=view.price(text),
                                   parse_mode='HTML')
-    except AttributeError:
-        print('System Photo Product None')
+        logger_djtbot.info('Send image to product')
+        return result
+    else:
+        logger_djtbot.info('Product image not fount')
         return bot.send_message(view.chat_id(data), message.price(text),
                                 reply_markup=view.price(text), parse_mode='HTML')
 

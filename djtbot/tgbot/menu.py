@@ -329,3 +329,12 @@ class Views(object):
             value = None
 
         return value
+
+    @classmethod
+    def error(cls, data):
+        try:
+            value = data["ok"]
+        except KeyError:
+            value = None
+
+        return value

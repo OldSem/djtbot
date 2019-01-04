@@ -1,0 +1,16 @@
+{
+  'callback_query': {
+    'chat_instance': '2522581432972046248',
+    'data': 'h1',
+    'from': {
+      'first_name': '@adv',
+      'id': 377081673,
+      'is_bot': False,
+      'language_code': 'ru',
+      'username': 'Alexandr_ADV'
+    },
+    'id': '1619553454618886784',
+    'inline_message_id': 'AgAAAPskAQBJz3kW083spCsazy8'
+  },
+  'update_id': 133263506
+}
