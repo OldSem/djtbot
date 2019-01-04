@@ -235,7 +235,7 @@ def get_all_product_in_basket(data):
 def get_product(data, text):
     img = SystemPhotoManager.get_product_img()
 
-    if img.img:
+    if img:
         logger_djtbot.info('Product image yes')
         result = bot.send_photo(view.chat_id(data),
                                   photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
