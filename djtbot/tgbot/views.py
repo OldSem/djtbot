@@ -11,6 +11,10 @@ set_bot.delete_webhook()
 set_bot.set_webhook()
 
 
+def start(request):
+    return HttpResponse('I am Robot!')
+
+
 @csrf_exempt
 def bot_view(request):
     if request.method == 'POST' or request.method == 'GET':
