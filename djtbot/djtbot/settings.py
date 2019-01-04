@@ -135,15 +135,11 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
-STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = "/home/adv/robosapiens.icu/media/"
 
-STATICFILES_DIRS = [STATIC_DIR]
-
-MEDIA_ROOT = MEDIA_DIR
-
-STATIC_ROOT = "/home/adv/robosapiens.tk/static/"
+STATIC_ROOT = "/home/adv/robosapiens.icu/static/"
 
 # Token Telegram Bot and Url Api
 TELEGRAM_URL = 'https://api.telegram.org'
