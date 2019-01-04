@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-HOST = os.environ.get('HOST', 'robosapiens.tk')
+HOST = os.environ.get('HOST', 'robosapiens.icu')
 
 DOMAIN = f'https://{HOST}'
 
