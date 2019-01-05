@@ -23,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d9a0*ic+=10$*1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True#os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', False)
 
 HOST = os.environ.get('HOST', 'robosapiens.icu')
 
 DOMAIN = f'https://{HOST}'
 
-ALLOWED_HOSTS = ['*', HOST, 'localhost', '46.101.211.123']
+ALLOWED_HOSTS = [HOST, 'localhost']
 
 # Application definition
 

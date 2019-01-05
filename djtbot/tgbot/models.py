@@ -99,6 +99,14 @@ class Clothe(models.Model):
     def __str__(self):
         return self.article_id
 
+    @property
+    def img_inline_path(self):
+        return '{}'.format(self.img_inline.path)
+
+    @property
+    def img_center_path(self):
+        return '{}'.format(self.img_center.path)
+
 
 class Basket(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
@@ -116,6 +124,10 @@ class SystemPhoto(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def img_path(self):
+        return '{}'.format(self.img.path)
 
 
 class Order(models.Model):

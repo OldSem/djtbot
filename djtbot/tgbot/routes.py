@@ -1,5 +1,5 @@
-from .manager import UserManager as user_manager, ManagerUserCity as city,\
-    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
+from .manager import UserManager as user_manager, ManagerUserCity as city, \
+    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket, \
     ClothesCategoryManager, SystemPhotoManager, OrderManager
 from .menu import Views as view
 from .settings import bot
@@ -90,7 +90,6 @@ def male_view(data):
 
 
 def get_category_id_in_query(query):
-
     if query:
         value = query[1:].capitalize()
 
@@ -99,8 +98,28 @@ def get_category_id_in_query(query):
     return None
 
 
-def format_image_url(img):
-    return "{0}{1}{2}".format(settings.DOMAIN, settings.MEDIA_URL, img)
+def results(clothe, query, data, category_name):
+    r = []
+    for i in clothe:
+        r.append(InlineQueryResultPhoto(
+                                                   id=i.id,
+                                                   photo_url='{}{}'.format(settings.DOMAIN, i.img_center.url),
+                                                   thumb_url='{}{}'.format(settings.DOMAIN, i.img_inline.url),
+                                                   photo_width=30,
+                                                   photo_height=30,
+                                                   caption=i.description,
+                                                   parse_mode='HTML',
+                                                   reply_markup=view.product(article_id=i.article_id, category=query),
+                                                   title='Title'))
+
+    response = bot.answer_inline_query(data["inline_query"]["id"],
+                                           results=r,
+                                           cache_time=0,
+                                           next_offset='',
+                                           switch_pm_parameter='products',
+                                           switch_pm_text=f'{category_name} [{len(clothe)}]')
+
+    return response
 
 
 def see_product_view(data):
@@ -116,48 +135,11 @@ def see_product_view(data):
             clothe = clothes.filter_clothes_for_category(category_id=category.id)
 
             if clothe:
-                logger_djtbot.info('clothes yes in db')
-                results = []
-
-                for product in clothe.values():
-                    logger_djtbot.info('add product to arrays')
-                    results.append(InlineQueryResultPhoto(
-                        id=product['id'],
-                        photo_url=format_image_url(product['img_center']),
-                        thumb_url=format_image_url(product['img_inline']),
-                        photo_width=30,
-                        photo_height=30,
-                        caption=product['description'],
-                        parse_mode='HTML',
-                        reply_markup=view.product(article_id=product['article_id'],
-                                                  category=query),
-                        title='Title')
-                    )
-                logger_djtbot.info('return query inline mode')
-
-                if len(results) > 0:
-                    return bot.answer_inline_query(view.chat_id(data),
-                                               results=results,
-                                               cache_time=0,
-                                               next_offset='',
-                                               switch_pm_parameter='products',
-                                               switch_pm_text=f'{category_name} [{len(clothe)}]')
-                else:
-                    return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
-                                            parse_mode='HTML')
-
+                results(clothe, query, data, category_name)
             else:
-                logger_djtbot.info('clothes not in db')
-                return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
-                                        parse_mode='HTML')
-
-        else:
-            logger_djtbot.info('category not in db')
-            return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
-
-    else:
-        logger_djtbot.info('not product')
-        return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
+                logger_djtbot.info('category not in db')
+                bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
+                                 parse_mode='HTML')
 
 
 def add_product_to_basket(data):
@@ -194,11 +176,12 @@ def see_product_basket(data):
             img = SystemPhotoManager.get_basket_photo()
 
             if getattr(img, 'img'):
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f"{settings.DOMAIN}{img.img.url}",
-                                      caption=message.basket(),
-                                      reply_markup=view.see_basket(),
-                                      parse_mode='HTML')
+                with open(img.img_path, 'rb') as img:
+                    return bot.send_photo(view.chat_id(data),
+                                          photo=img,
+                                          caption=message.basket(),
+                                          reply_markup=view.see_basket(),
+                                          parse_mode='HTML')
         except AttributeError:
             print('System Photo Product None')
             return bot.send_message(view.chat_id(data), text=message.basket(),
@@ -216,21 +199,20 @@ def get_all_product_in_basket(data):
     if products:
         results = []
 
-        for i in products.values():
-            prod = clothes.get_clothes(i['product_id'])
+        for i in products:
+            prod = clothes.get_clothes(i.product_id)
 
             if prod:
-                for product in prod.values():
-
+                for product in prod:
                     results.append(InlineQueryResultPhoto(
-                        id=product['id'],
-                        photo_url=format_image_url(product['img_center']),
-                        thumb_url=format_image_url(product['img_inline']),
+                        id=product.id,
+                        photo_url=open(product.img_center_path, 'rb'),
+                        thumb_url=open(product.img_inline_path, 'rd'),
                         photo_width=30,
                         photo_height=30,
-                        caption=product['description'],
+                        caption=product.description,
                         parse_mode='HTML',
-                        reply_markup=view.product(article_id=product['article_id'], category=query))
+                        reply_markup=view.product(article_id=product.article_id, category=query))
                     )
 
         return bot.answer_inline_query(view.chat_id(data),
@@ -246,11 +228,12 @@ def get_product(data, text):
 
     if img:
         logger_djtbot.info('Product image yes')
-        result = bot.send_photo(view.chat_id(data),
-                                  photo=open(img.img.path, 'rb'),
-                                  caption=message.price(text),
-                                  reply_markup=view.price(text),
-                                  parse_mode='HTML')
+        with open(img.img_path, 'rb') as img:
+            result = bot.send_photo(view.chat_id(data),
+                                    photo=img,
+                                    caption=message.price(text),
+                                    reply_markup=view.price(text),
+                                    parse_mode='HTML')
         logger_djtbot.info('Send image to product')
         return result
     else:

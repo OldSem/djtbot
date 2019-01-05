@@ -3,6 +3,7 @@ from pprint import pprint
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from .exeptions import BotError
 from .manager import SystemPhotoManager
 from .logger import logger_djtbot
 from .bot_view import view, bot_error
@@ -31,12 +32,5 @@ def bot_view(request):
         if settings.DEBUG:
             pprint(data)
 
-        code = v.error_code(data)
-
-        if code and code != 200:
-            logger_djtbot.error('Telegram server return false: {0}'.format(code))
-            bot_error(data)
-            raise Http404("Question does not exist")
-        else:
-            view(data)
-            return HttpResponse('Ok', status=200)
+        view(data)
+        return HttpResponse('Ok', status=200)
