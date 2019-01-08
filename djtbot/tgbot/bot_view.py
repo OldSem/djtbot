@@ -124,14 +124,16 @@ def view(data):
     elif v.get_text(data) == b.btn40.switch_inline_query_current_chat:
         return see_product_view(data)
 
+    elif v.get_product_id(data):
+        count = len(v.get_product_id(data).split(','))
+
+        if count > 1:
+            return order(data)
+        else:
+            return add_product_to_basket(data)
+
     elif v.get_text(data) == b.btn48.switch_inline_query_current_chat:
         return get_all_product_in_basket(data)
-
-    elif v.get_text(data) == b.btn45.callback_data:
-        return order(data)
-
-    elif v.get_text(data) == b.btn46.callback_data:
-        return add_product_to_basket(data)
 
 
 def bot_error(data):
