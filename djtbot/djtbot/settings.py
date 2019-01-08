@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dmft%d7wnx#5=zbd5^p7pyen7xpbwlsb4mq8d9a0*ic+=10$*1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG', True)
 
 HOST = os.environ.get('HOST', 'robosapiens.icu')
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tgbot'
+    'tgbot',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -131,21 +132,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-STATIC_URL = '/static/'
+_PATH = os.path.abspath(os.path.dirname(__file__))
 
+MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
 MEDIA_URL = '/media/'
 
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(_PATH, 'files', 'static')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(_PATH, 'static'),
+)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
-MEDIA_ROOT = "/home/adv/robosapiens.icu/media/"
-
-STATIC_ROOT = "/home/adv/robosapiens.icu/static/"
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Token Telegram Bot and Url Api
 TELEGRAM_URL = 'https://api.telegram.org'
 
 TOKEN = os.environ.get('TOKEN', '768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ')
-
 
 # Logger config
 LOGGING = {
