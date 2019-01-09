@@ -1,8 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-from .manager import UserManager as user_manager, ManagerUserCity as city,\
-    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket,\
+from .manager import UserManager as user_manager, ManagerUserCity as city, \
+    ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket, \
     ClothesCategoryManager, SystemPhotoManager, OrderManager
 from .menu import Views as view
 from .settings import bot
@@ -114,7 +114,6 @@ def see_product_view(data):
                 results = []
 
                 for product in clothe.values():
-
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
                         photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
@@ -140,7 +139,8 @@ def see_product_view(data):
                                         parse_mode='HTML')
 
         else:
-            return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
+            return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
+                                    parse_mode='HTML')
 
     else:
         return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
@@ -178,19 +178,31 @@ def see_product_basket(data):
             img = SystemPhotoManager.get_basket_photo()
 
             if getattr(img, 'img'):
-
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f"{settings.DOMAIN}{settings.MEDIA_URL}{img.img}",
-                                      caption=message.basket(),
-                                      reply_markup=view.see_basket(),
-                                      parse_mode='HTML')
+                with open(img.img_path, 'rb') as f:
+                    return bot.send_photo(view.chat_id(data),
+                                          photo=f,
+                                          caption=message.basket(),
+                                          reply_markup=view.see_basket(),
+                                          parse_mode='HTML')
+            else:
+                return bot.send_message(view.chat_id(data), message.basket(),
+                                        reply_markup=view.see_basket(), parse_mode='HTML')
         except AttributeError:
             print('System Photo Product None')
             return bot.send_message(view.chat_id(data), text=message.basket(),
                                     reply_markup=view.see_basket(), parse_mode='HTML')
     else:
-        return bot.send_message(view.chat_id(data), message.basket_not_items(),
-                                reply_markup=view.basket(), parse_mode='HTML')
+        img = SystemPhotoManager.not_product_photo()
+        if getattr(img, 'img'):
+            with open(img.img_path, 'rb') as f:
+                return bot.send_photo(view.chat_id(data),
+                                      photo=f,
+                                      caption=message.basket_not_items(),
+                                      reply_markup=view.basket(),
+                                      parse_mode='HTML')
+        else:
+            return bot.send_message(view.chat_id(data), message.basket_not_items(),
+                                    reply_markup=view.basket(), parse_mode='HTML')
 
 
 def get_all_product_in_basket(data):
@@ -206,7 +218,6 @@ def get_all_product_in_basket(data):
 
             if prod:
                 for product in prod.values():
-
                     results.append(InlineQueryResultPhoto(
                         id=product['id'],
                         photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
@@ -243,8 +254,19 @@ def get_product(data, text):
 
 
 def to_share(data):
-    return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
-                            reply_markup=view.to_share(), parse_mode='HTML')
+    try:
+        img = SystemPhotoManager.to_share_photo()
+        if getattr(img, 'img'):
+            with open(img.img_path, 'rb') as f:
+                return bot.send_photo(view.chat_id(data),
+                                      photo=f,
+                                      caption=message.to_share(),
+                                      reply_markup=view.to_share(),
+                                      parse_mode='HTML')
+    except AttributeError:
+        print('System Photo Product None')
+        return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
+                                reply_markup=view.to_share(), parse_mode='HTML')
 
 
 def order(data):
