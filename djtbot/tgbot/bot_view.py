@@ -125,9 +125,9 @@ def view(data):
         return see_product_view(data)
 
     elif v.get_product_id(data):
-        count = len(v.get_product_id(data).split(','))
+        product_count_array = len(v.get_product_id(data).split(','))
 
-        if count > 1:
+        if product_count_array > 1:
             return order(data)
         else:
             return add_product_to_basket(data)

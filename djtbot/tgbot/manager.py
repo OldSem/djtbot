@@ -154,7 +154,7 @@ class SystemPhotoManager(object):
         return result
 
     @classmethod
-    def to_share_photo(cls):
+    def to_reviews_photo(cls):
         try:
             result = SystemPhoto.objects.get(name='поделиться')
         except SystemPhoto.DoesNotExist:
@@ -166,6 +166,24 @@ class SystemPhotoManager(object):
     def not_product_photo(cls):
         try:
             result = SystemPhoto.objects.get(name='нет товара')
+        except SystemPhoto.DoesNotExist:
+            result = None
+
+        return result
+
+    @classmethod
+    def order(cls):
+        try:
+            result = SystemPhoto.objects.get(name='заказ')
+        except SystemPhoto.DoesNotExist:
+            result = None
+
+        return result
+
+    @classmethod
+    def to_share_photo(cls):
+        try:
+            result = SystemPhoto.objects.get(name='rosie')
         except SystemPhoto.DoesNotExist:
             result = None
 

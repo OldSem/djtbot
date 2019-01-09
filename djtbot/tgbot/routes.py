@@ -1,6 +1,3 @@
-from rest_framework import status
-from rest_framework.response import Response
-
 from .manager import UserManager as user_manager, ManagerUserCity as city, \
     ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket, \
     ClothesCategoryManager, SystemPhotoManager, OrderManager
@@ -283,11 +280,32 @@ def order(data):
     bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
                               show_alert=True,
                               text=message.order())
-
-    return bot.send_message(view.chat_id(data), text=message.to_manager(),
-                            reply_markup=view.order(), parse_mode='HTML')
+    try:
+        img = SystemPhotoManager.order()
+        if getattr(img, 'img'):
+            with open(img.img_path, 'rb') as f:
+                return bot.send_photo(view.chat_id(data),
+                                      photo=f,
+                                      caption=message.to_manager(),
+                                      reply_markup=view.order(),
+                                      parse_mode='HTML')
+    except AttributeError:
+        print('System Photo Product None')
+        return bot.send_message(view.chat_id(data), text=message.to_manager(),
+                                reply_markup=view.order(), parse_mode='HTML')
 
 
 def reviews(data):
-    return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
-                            reply_markup=view.reviews(), parse_mode='HTML')
+    try:
+        img = SystemPhotoManager.to_reviews_photo()
+        if getattr(img, 'img'):
+            with open(img.img_path, 'rb') as f:
+                return bot.send_photo(view.chat_id(data),
+                                      photo=f,
+                                      caption=message.reviews(),
+                                      reply_markup=view.reviews(),
+                                      parse_mode='HTML')
+    except AttributeError:
+        print('System Photo Product None')
+        return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
+                                reply_markup=view.reviews(), parse_mode='HTML')
