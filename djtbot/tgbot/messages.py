@@ -44,7 +44,7 @@ class Messages(object):
 
     @classmethod
     def to_share(cls):
-        return "@Robo_Sapiens_Bot - <strong>Меня зовут Rosie.</strong> " \
+        return "@Robo_Sapiens_Bot - <strong>Меня зовут Robo Sapiens.</strong> " \
                "Я бот который поможет вам найти нужную одежду, обувь и другие аксессуары!\n\n"\
                 "Моя цель - положить начало эры удобных покупок через мессенджеры." \
                " С каждым вашим выбором, я становлюсь умнее."
