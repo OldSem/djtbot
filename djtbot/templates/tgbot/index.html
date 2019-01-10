@@ -7,22 +7,23 @@
 <body>
 
 <h1>I Am Robot!</h1>
+<div id="list"></div>
+
 </body>
 <script type="text/javascript">
     var http = new XMLHttpRequest(),
-        url = document.location.href + 'api/',
-        data;
+        url = document.location.href + 'api/';
 
-    http.open('GET', URL, false);
+    http.open('GET', url, false);
     http.send();
 
     if (http.status !== 200) {
         console.log('error');
     } else {
-        
-         HTTP.responseText;
+        var div = document.createElement('img');
+        div.src = JSON.parse(http.response).photo;
+        list.appendChild(div);
     }
-
 
 </script>
 </html>

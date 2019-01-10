@@ -171,35 +171,35 @@ def see_product_basket(data):
             product_list.append(product['product_id'])
 
     if len(product_list) > 0:
-        try:
-            img = SystemPhotoManager.get_basket_photo()
-
-            if getattr(img, 'img'):
-                with open(img.img_path, 'rb') as f:
-                    return bot.send_photo(view.chat_id(data),
-                                          photo=f,
-                                          caption=message.basket(),
-                                          reply_markup=view.see_basket(),
-                                          parse_mode='HTML')
-            else:
-                return bot.send_message(view.chat_id(data), message.basket(),
-                                        reply_markup=view.see_basket(), parse_mode='HTML')
-        except AttributeError:
-            print('System Photo Product None')
-            return bot.send_message(view.chat_id(data), text=message.basket(),
-                                    reply_markup=view.see_basket(), parse_mode='HTML')
+        # try:
+        #     img = SystemPhotoManager.get_basket_photo()
+        #
+        #     if getattr(img, 'img'):
+        #         with open(img.img_path, 'rb') as f:
+        #             return bot.send_photo(view.chat_id(data),
+        #                                   photo=f,
+        #                                   caption=message.basket(),
+        #                                   reply_markup=view.see_basket(),
+        #                                   parse_mode='HTML')
+        #     else:
+        #         return bot.send_message(view.chat_id(data), message.basket(),
+        #                                 reply_markup=view.see_basket(), parse_mode='HTML')
+        # except AttributeError:
+        #     print('System Photo Product None')
+        return bot.send_message(view.chat_id(data), text=message.basket(),
+                                reply_markup=view.see_basket(), parse_mode='HTML')
     else:
-        img = SystemPhotoManager.not_product_photo()
-        if getattr(img, 'img'):
-            with open(img.img_path, 'rb') as f:
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f,
-                                      caption=message.basket_not_items(),
-                                      reply_markup=view.basket(),
-                                      parse_mode='HTML')
-        else:
-            return bot.send_message(view.chat_id(data), message.basket_not_items(),
-                                    reply_markup=view.basket(), parse_mode='HTML')
+        # img = SystemPhotoManager.not_product_photo()
+        # if getattr(img, 'img'):
+        #     with open(img.img_path, 'rb') as f:
+        #         return bot.send_photo(view.chat_id(data),
+        #                               photo=f,
+        #                               caption=message.basket_not_items(),
+        #                               reply_markup=view.basket(),
+        #                               parse_mode='HTML')
+        # else:
+        return bot.send_message(view.chat_id(data), message.basket_not_items(),
+                                reply_markup=view.basket(), parse_mode='HTML')
 
 
 def get_all_product_in_basket(data):
@@ -235,35 +235,41 @@ def get_all_product_in_basket(data):
 
 
 def get_product(data, text):
-    try:
-        img = SystemPhotoManager.get_product_img()
-        if getattr(img, 'img'):
-            with open(img.img_path, 'rb') as f:
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f,
-                                      caption=message.price(text),
-                                      reply_markup=view.price(text),
-                                      parse_mode='HTML')
-    except AttributeError:
-        print('System Photo Product None')
-        return bot.send_message(view.chat_id(data), message.price(text),
-                                reply_markup=view.price(text), parse_mode='HTML')
+    # try:
+    #     img = SystemPhotoManager.get_product_img()
+    #     if getattr(img, 'img'):
+    #         with open(img.img_path, 'rb') as f:
+    #             return bot.send_photo(view.chat_id(data),
+    #                                   photo=f,
+    #                                   caption=message.price(text),
+    #                                   reply_markup=view.price(text),
+    #                                   parse_mode='HTML')
+    # except AttributeError:
+    #     print('System Photo Product None')
+    return bot.send_message(view.chat_id(data), message.price(text),
+                            reply_markup=view.price(text), parse_mode='HTML')
 
 
 def to_share(data):
-    try:
-        img = SystemPhotoManager.to_share_photo()
-        if getattr(img, 'img'):
-            with open(img.img_path, 'rb') as f:
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f,
-                                      caption=message.to_share(),
-                                      reply_markup=view.to_share(),
-                                      parse_mode='HTML')
-    except AttributeError:
-        print('System Photo Product None')
-        return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
-                                reply_markup=view.to_share(), parse_mode='HTML')
+    """
+    photo inserted as file
+    """
+    # try:
+    #     img = SystemPhotoManager.to_share_photo()
+    #     if getattr(img, 'img'):
+    #         with open(img.img_path, 'rb') as f:
+    #             return bot.send_photo(view.chat_id(data),
+    #                                   photo=f,
+    #                                   caption=message.to_share(),
+    #                                   reply_markup=view.to_share(),
+    #                                   parse_mode='HTML')
+    # except AttributeError:
+    #     print('System Photo Product None')
+    """
+    photo is inserted as link in HTML to message
+    """
+    return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
+                            reply_markup=view.to_share(), parse_mode='HTML')
 
 
 def order(data):
@@ -280,32 +286,32 @@ def order(data):
     bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
                               show_alert=True,
                               text=message.order())
-    try:
-        img = SystemPhotoManager.order()
-        if getattr(img, 'img'):
-            with open(img.img_path, 'rb') as f:
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f,
-                                      caption=message.to_manager(),
-                                      reply_markup=view.order(),
-                                      parse_mode='HTML')
-    except AttributeError:
-        print('System Photo Product None')
-        return bot.send_message(view.chat_id(data), text=message.to_manager(),
-                                reply_markup=view.order(), parse_mode='HTML')
+    # try:
+    #     img = SystemPhotoManager.order()
+    #     if getattr(img, 'img'):
+    #         with open(img.img_path, 'rb') as f:
+    #             return bot.send_photo(view.chat_id(data),
+    #                                   photo=f,
+    #                                   caption=message.to_manager(),
+    #                                   reply_markup=view.order(),
+    #                                   parse_mode='HTML')
+    # except AttributeError:
+    #     print('System Photo Product None')
+    return bot.send_message(view.chat_id(data), text=message.to_manager(),
+                            reply_markup=view.order(), parse_mode='HTML')
 
 
 def reviews(data):
-    try:
-        img = SystemPhotoManager.to_reviews_photo()
-        if getattr(img, 'img'):
-            with open(img.img_path, 'rb') as f:
-                return bot.send_photo(view.chat_id(data),
-                                      photo=f,
-                                      caption=message.reviews(),
-                                      reply_markup=view.reviews(),
-                                      parse_mode='HTML')
-    except AttributeError:
-        print('System Photo Product None')
-        return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
-                                reply_markup=view.reviews(), parse_mode='HTML')
+    # try:
+    #     img = SystemPhotoManager.to_reviews_photo()
+    #     if getattr(img, 'img'):
+    #         with open(img.img_path, 'rb') as f:
+    #             return bot.send_photo(view.chat_id(data),
+    #                                   photo=f,
+    #                                   caption=message.reviews(),
+    #                                   reply_markup=view.reviews(),
+    #                                   parse_mode='HTML')
+    # except AttributeError:
+    #     print('System Photo Product None')
+    return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
+                            reply_markup=view.reviews(), parse_mode='HTML')
