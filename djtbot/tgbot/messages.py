@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 class Messages(object):
     @classmethod
     def start(cls):
@@ -24,14 +27,14 @@ class Messages(object):
     def basket_not_items(cls):
         return "<strong>В корзине пока нет товаров!</strong>\n"\
                "Чтобы добавить товар в корзину, при просмотре описания\n" \
-               "товара нажмите кнопку - <strong>Корзина!</strong>\n"\
+               "товара нажмите кнопку - <strong>Корзина!</strong>"\
                 "<a href='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-41.jpg'>&#160;</a>"
 
     @classmethod
     def basket(cls):
         return "<strong>Вы выбрали - Корзину!\n</strong>"\
                 "Чтобы просмотреть все имеющиеся товары которые" \
-               " вы добавили в корзину, нажмите кнопку - <strong>Смотреть!</strong>\n" \
+               " вы добавили в корзину, нажмите кнопку - <strong>Смотреть!</strong>" \
                "<a href='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-27.jpg'>&#160;</a>"
 
     @classmethod
@@ -49,7 +52,7 @@ class Messages(object):
         return "@Robo_Sapiens_Bot - <strong>Меня зовут Robo Sapiens.</strong> " \
                "Я бот который поможет вам найти нужную одежду, обувь и другие аксессуары!\n\n"\
                 "Моя цель - положить начало эры удобных покупок через мессенджеры." \
-               " С каждым вашим выбором, я становлюсь умнее.\n"\
+               " С каждым вашим выбором, я становлюсь умнее."\
                "<a href='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-50.jpg'>&#160;</a> "
 
     @classmethod
@@ -65,7 +68,7 @@ class Messages(object):
     @classmethod
     def price(cls, category):
         return f"<strong>Вы выбрали - {category}!\n</strong>"\
-                "Чтобы просмотреть все имеющиеся товары, нажмите кнопку - <strong>Смотреть все!</strong>\n"\
+                "Чтобы просмотреть все имеющиеся товары, нажмите кнопку - <strong>Смотреть все!</strong>"\
                 "<a href ='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-17.jpg'>&#160;</a>"
 
     @classmethod
@@ -83,6 +86,5 @@ class Messages(object):
     @classmethod
     def to_manager(cls):
         return "<strong>Отличный выбор!</strong>\n" \
-               "Чтобы закончить оформление заказа, перейдите пожалуйста в чат с нашим менеджером.\n\n" \
-               "© Robo Sapiens\n"\
-                "<a href ='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-46.jpg'>&#160;</a>"
+               "Чтобы закончить оформление заказа, перейдите пожалуйста в чат с нашим менеджером." \
+               "<a href ='https://robosapiens.icu/media/bot_media/photo_2019-01-03_00-39-46.jpg'>&#160;</a>"
