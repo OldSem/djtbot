@@ -138,4 +138,4 @@ def view(data):
 
 def bot_error(data):
     return bot.answer_callback_query(v.user_id(data), msg.no_product(),
-                            reply_markup=v.menu(), parse_mode='HTML')
+                                     reply_markup=v.menu(), parse_mode='HTML')

@@ -88,10 +88,12 @@ class ClothesManager(object):
         return article
 
     @classmethod
-    def filter_clothes_for_category(cls, category_id):
-        article = Clothe.objects.filter(category_id=category_id).order_by('-id')
-
-        return article if article else None
+    def filter_clothes_for_category(cls, category_id, country, male):
+        return Clothe.objects.filter(
+            category_id=category_id,
+            country=country,
+            male=male,
+            is_active=True).order_by('-id')
 
 
 class ClothesCategoryManager(object):
