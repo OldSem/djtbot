@@ -1,6 +1,6 @@
 from .manager import UserManager as user_manager, ManagerUserCity as city, \
     ManagerUserTypes as types, ClothesManager as clothes, BasketManager as basket, \
-    ClothesCategoryManager, SystemPhotoManager, OrderManager
+    ClothesCategoryManager, OrderManager
 from .menu import Views as view
 from .settings import bot
 from .messages import Messages as message
@@ -100,45 +100,34 @@ def get_category_id_in_query(query):
 def see_product_view(data):
     query = view.get_text(data)
     category_name = get_category_id_in_query(query)
+    user_instance = view.user_id(data)
+    user = user_manager.is_user(user_instance)
+    country = city.get_user(user.id).name
+    male = types.get_user(user.id).name
+    category = ClothesCategoryManager.get_category_id(category=category_name)
+    clothe = clothes.filter_clothes_for_category(
+        category_id=category.id,
+        male=1 if male == 'Мужской' else 2,
+        country=1 if country == 'Украина' else 2)
+    results = []
+    if clothe:
+        for product in clothe.values():
+            results.append(InlineQueryResultPhoto(
+                id=product['id'],
+                photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
+                thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                photo_width=30,
+                photo_height=30,
+                caption=product['description'],
+                parse_mode='HTML',
+                reply_markup=view.product(article_id=product['article_id'],category=query)))
 
-    if category_name:
-        category = ClothesCategoryManager.get_category_id(category=category_name)
-
-        if category:
-            clothe = clothes.filter_clothes_for_category(category_id=category.id)
-
-            if clothe:
-                results = []
-
-                for product in clothe.values():
-                    results.append(InlineQueryResultPhoto(
-                        id=product['id'],
-                        photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                        thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
-                        photo_width=30,
-                        photo_height=30,
-                        caption=product['description'],
-                        parse_mode='HTML',
-                        reply_markup=view.product(article_id=product['article_id'],
-                                                  category=query),
-                        title='Title')
-                    )
-
-                return bot.answer_inline_query(data['inline_query']['id'],
-                                               results=results,
-                                               cache_time=0,
-                                               next_offset='',
-                                               switch_pm_parameter='products',
-                                               switch_pm_text=f'{category_name} [{len(clothe)}]')
-
-            else:
-                return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
-                                        parse_mode='HTML')
-
-        else:
-            return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(),
-                                    parse_mode='HTML')
-
+        return bot.answer_inline_query(data['inline_query']['id'],
+                                       results=results,
+                                       cache_time=0,
+                                       next_offset='',
+                                       switch_pm_parameter='products',
+                                       switch_pm_text=f'{category_name} [{len(clothe)}]')
     else:
         return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
 
@@ -171,33 +160,9 @@ def see_product_basket(data):
             product_list.append(product['product_id'])
 
     if len(product_list) > 0:
-        # try:
-        #     img = SystemPhotoManager.get_basket_photo()
-        #
-        #     if getattr(img, 'img'):
-        #         with open(img.img_path, 'rb') as f:
-        #             return bot.send_photo(view.chat_id(data),
-        #                                   photo=f,
-        #                                   caption=message.basket(),
-        #                                   reply_markup=view.see_basket(),
-        #                                   parse_mode='HTML')
-        #     else:
-        #         return bot.send_message(view.chat_id(data), message.basket(),
-        #                                 reply_markup=view.see_basket(), parse_mode='HTML')
-        # except AttributeError:
-        #     print('System Photo Product None')
         return bot.send_message(view.chat_id(data), text=message.basket(),
                                 reply_markup=view.see_basket(), parse_mode='HTML')
     else:
-        # img = SystemPhotoManager.not_product_photo()
-        # if getattr(img, 'img'):
-        #     with open(img.img_path, 'rb') as f:
-        #         return bot.send_photo(view.chat_id(data),
-        #                               photo=f,
-        #                               caption=message.basket_not_items(),
-        #                               reply_markup=view.basket(),
-        #                               parse_mode='HTML')
-        # else:
         return bot.send_message(view.chat_id(data), message.basket_not_items(),
                                 reply_markup=view.basket(), parse_mode='HTML')
 
@@ -235,39 +200,11 @@ def get_all_product_in_basket(data):
 
 
 def get_product(data, text):
-    # try:
-    #     img = SystemPhotoManager.get_product_img()
-    #     if getattr(img, 'img'):
-    #         with open(img.img_path, 'rb') as f:
-    #             return bot.send_photo(view.chat_id(data),
-    #                                   photo=f,
-    #                                   caption=message.price(text),
-    #                                   reply_markup=view.price(text),
-    #                                   parse_mode='HTML')
-    # except AttributeError:
-    #     print('System Photo Product None')
     return bot.send_message(view.chat_id(data), message.price(text),
                             reply_markup=view.price(text), parse_mode='HTML')
 
 
 def to_share(data):
-    """
-    photo inserted as file
-    """
-    # try:
-    #     img = SystemPhotoManager.to_share_photo()
-    #     if getattr(img, 'img'):
-    #         with open(img.img_path, 'rb') as f:
-    #             return bot.send_photo(view.chat_id(data),
-    #                                   photo=f,
-    #                                   caption=message.to_share(),
-    #                                   reply_markup=view.to_share(),
-    #                                   parse_mode='HTML')
-    # except AttributeError:
-    #     print('System Photo Product None')
-    """
-    photo is inserted as link in HTML to message
-    """
     return bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
                             reply_markup=view.to_share(), parse_mode='HTML')
 
@@ -286,32 +223,10 @@ def order(data):
     bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
                               show_alert=True,
                               text=message.order())
-    # try:
-    #     img = SystemPhotoManager.order()
-    #     if getattr(img, 'img'):
-    #         with open(img.img_path, 'rb') as f:
-    #             return bot.send_photo(view.chat_id(data),
-    #                                   photo=f,
-    #                                   caption=message.to_manager(),
-    #                                   reply_markup=view.order(),
-    #                                   parse_mode='HTML')
-    # except AttributeError:
-    #     print('System Photo Product None')
     return bot.send_message(view.chat_id(data), text=message.to_manager(),
                             reply_markup=view.order(), parse_mode='HTML')
 
 
 def reviews(data):
-    # try:
-    #     img = SystemPhotoManager.to_reviews_photo()
-    #     if getattr(img, 'img'):
-    #         with open(img.img_path, 'rb') as f:
-    #             return bot.send_photo(view.chat_id(data),
-    #                                   photo=f,
-    #                                   caption=message.reviews(),
-    #                                   reply_markup=view.reviews(),
-    #                                   parse_mode='HTML')
-    # except AttributeError:
-    #     print('System Photo Product None')
     return bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
                             reply_markup=view.reviews(), parse_mode='HTML')
