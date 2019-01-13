@@ -120,16 +120,17 @@ def see_product_view(data):
     if clothe:
         results = []
         print(9)
-        for product in clothe.values():
+        for product in clothe:
             results.append(InlineQueryResultPhoto(
-                id=product['id'],
-                photo_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_center']}",
-                thumb_url=f"{settings.DOMAIN}{settings.MEDIA_URL}{product['img_inline']}",
+                id=product.id,
+                photo_url=open(product.img_center_path, 'rb'),
+                thumb_url=open(product.img_inline_path, 'rb'),
                 photo_width=30,
                 photo_height=30,
-                caption=product['description'],
+                caption=product.description,
+                description='Photo',
                 parse_mode='HTML',
-                reply_markup=view.product(article_id=product['article_id'],category=query)))
+                reply_markup=view.product(article_id=product.article_id,category=query)))
         print(10)
         return bot.answer_inline_query(data['inline_query']['id'],
                                        results=results,
