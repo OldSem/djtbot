@@ -6,5 +6,5 @@ from django.urls import re_path
 urlpatterns = [
     re_path(r'^$', RenderStartView.as_view(), name='start_template'),
     re_path(r'^api/$', StartView.as_view(), name='start_api'),
-    path('{}'.format(settings.TOKEN), BotView.as_view(), name='bot_view'),
+    # path('{}'.format(settings.TOKEN), BotView.as_view(), name='bot_view'),
 ]
