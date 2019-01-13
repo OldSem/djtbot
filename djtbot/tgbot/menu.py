@@ -127,7 +127,7 @@ class Views(object):
         markup = InlineKeyboardMarkup()
         btn.btn45.callback_data = f'{article_id}, {user_id}'
         btn.btn46.callback_data = article_id
-        btn.btn47.switch_inline_query_current_chat = category if category else 'all_category'
+        btn.btn47.switch_inline_query_current_chat = category
         markup.add(btn.btn45, btn.btn46)
         markup.add(btn.btn47)
         return markup
