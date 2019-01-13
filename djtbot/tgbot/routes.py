@@ -99,27 +99,18 @@ def get_category_id_in_query(query):
 
 def see_product_view(data):
     query = view.get_text(data)
-    print(1)
     category_name = get_category_id_in_query(query)
-    print(2)
     user_instance = view.user_id(data)
-    print(3)
     user = user_manager.is_user(user_instance)
-    print(4)
     country = city.get_user(user.id).name
-    print(5)
     male = types.get_user(user.id).name
-    print(6)
     category = ClothesCategoryManager.get_category_id(category=category_name)
-    print(7)
     clothe = clothes.filter_clothes_for_category(
         category_id=category.id,
         male=1 if male == 'Мужской' else 2,
         country=1 if country == 'Украина' else 2)
-    print(8)
     if clothe:
         results = []
-        print(9)
         for product in clothe:
             results.append(InlineQueryResultPhoto(
                 id=product.id,
@@ -131,15 +122,12 @@ def see_product_view(data):
                 description='Photo',
                 parse_mode='HTML',
                 reply_markup=view.product(article_id=product.article_id,category=query)))
-        print(10)
         return bot.answer_inline_query(data['inline_query']['id'],
                                        results=results,
-                                       cache_time=0,
                                        next_offset='',
                                        switch_pm_parameter='products',
                                        switch_pm_text=f'{category_name} [{len(clothe)}]')
     else:
-        print(11)
         return bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
 
 
@@ -204,7 +192,6 @@ def get_all_product_in_basket(data):
 
         return bot.answer_inline_query(view.chat_id(data),
                                        results=results,
-                                       cache_time=0,
                                        next_offset='',
                                        switch_pm_parameter='basket',
                                        switch_pm_text=f'Товары [{len(products)}]')
