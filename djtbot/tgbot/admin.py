@@ -74,7 +74,7 @@ class SystemFotoAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(HistoryUpdateId)
+@admin.register(HistoryUpdate)
 class HistoryUpdateIdAdmin(admin.ModelAdmin):
     pass
 

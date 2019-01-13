@@ -158,11 +158,11 @@ class Order(models.Model):
         return self.user.first_name
 
 
-class HistoryUpdateId(models.Model):
+class HistoryUpdate(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
-    date = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now=True)
     update_id = models.BigIntegerField()
 
     def __str__(self):
-        return self.date
+        return self.created
 
