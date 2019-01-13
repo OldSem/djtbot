@@ -133,6 +133,13 @@ class Views(object):
         return markup
 
     @classmethod
+    def all_product(cls):
+        markup = InlineKeyboardMarkup()
+        markup.add(btn.btn45, btn.btn46)
+        markup.add(btn.btn47)
+        return markup
+
+    @classmethod
     def order(cls):
         markup = InlineKeyboardMarkup()
         markup.add(btn.btn50)
