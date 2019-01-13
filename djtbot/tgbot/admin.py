@@ -74,6 +74,11 @@ class SystemFotoAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(HistoryUpdateId)
+class HistoryUpdateIdAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Order)
 class OrdersAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'article', 'created', 'price', 'markup')

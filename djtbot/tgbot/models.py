@@ -160,5 +160,9 @@ class Order(models.Model):
 
 class HistoryUpdateId(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
+    date = models.DateTimeField(auto_now=True)
     update_id = models.BigIntegerField()
+
+    def __str__(self):
+        return self.date
 

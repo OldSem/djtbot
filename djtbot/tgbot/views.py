@@ -16,7 +16,7 @@ from rest_framework import status
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from .manager import UserManager, ManagerUserCity, ManagerUserTypes, ClothesCategoryManager, \
-    ClothesManager, BasketManager, OrderManager
+    ClothesManager, BasketManager, OrderManager, HistoryUpdateManager
 from .settings import bot
 from .messages import Messages
 
@@ -41,7 +41,10 @@ class BotView(APIView):
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
             print(data)
-            update_id = data['update_id']
+            update_id = HistoryUpdateManager.get(data['update_id'])
+            if update_id:
+                return Response('Ok', status=status.HTTP_200_OK)
+            HistoryUpdateManager.add(update_id=update_id)
             if 'inline_query' in data:
                 query = data['inline_query']['query']
                 if query is '':

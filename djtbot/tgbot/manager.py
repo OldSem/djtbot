@@ -203,3 +203,17 @@ class OrderManager(object):
             markup=markup)
         order.save()
 
+
+class HistoryUpdateManager(object):
+    @classmethod
+    def add(cls, update_id):
+        order = HistoryUpdateId.objects.create(update_id=update_id)
+        order.save()
+
+    @classmethod
+    def get(cls, update_id):
+        try:
+            update_id = HistoryUpdateId.objects.get(update_id=update_id)
+        except HistoryUpdateId.DoesNotExist:
+            update_id = None
+        return update_id
