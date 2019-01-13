@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 
 
 set_bot = Bot()
@@ -26,6 +27,7 @@ class StartView(APIView):
 
 
 class BotView(APIView):
+    @csrf_exempt
     def post(self, request):
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))

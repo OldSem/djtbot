@@ -123,8 +123,8 @@ def see_product_view(data):
         for product in clothe:
             results.append(InlineQueryResultPhoto(
                 id=product.id,
-                photo_url=open(product.img_center_path, 'rb'),
-                thumb_url=open(product.img_inline_path, 'rb'),
+                photo_url=f"{settings.DOMAIN}{product.img_center.url}",
+                thumb_url=f"{settings.DOMAIN}{product.img_inline.url}",
                 photo_width=30,
                 photo_height=30,
                 caption=product.description,
