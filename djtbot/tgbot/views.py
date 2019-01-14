@@ -1,20 +1,16 @@
-from pprint import pprint
 import json
 
 from telebot.types import InlineQueryResultPhoto
 
-from .buttons import Buttons
+from .routes import get_category_id_in_query
 from .menu import Views
-from .routes import get_category_id_in_query, get_all_product_in_basket, see_product_view, order, add_product_to_basket
 from .manager import SystemPhotoManager
-from .bot_view import view
 from .webhooks import Bot
 from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.views.generic import TemplateView
-from django.views.decorators.csrf import csrf_exempt
 from .manager import UserManager, ManagerUserCity, ManagerUserTypes, ClothesCategoryManager, \
     ClothesManager, BasketManager, OrderManager, HistoryUpdateManager
 from .settings import bot
@@ -36,15 +32,9 @@ class StartView(APIView):
 
 
 class BotView(APIView):
-    @csrf_exempt
     def post(self, request):
         if request.method == 'POST':
             data = json.loads(request.body.decode('utf-8'))
-            # print(data)
-            # update_id = HistoryUpdateManager.get(data['update_id'])
-            # if update_id:
-            #     return Response('Ok', status=status.HTTP_200_OK)
-            # HistoryUpdateManager.add(update_id=update_id)
             # if 'inline_query' in data:
             #     query = data['inline_query']['query']
             #     if query is '':

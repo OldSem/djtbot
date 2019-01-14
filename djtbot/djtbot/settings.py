@@ -152,7 +152,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Token Telegram Bot and Url Api
 TELEGRAM_URL = 'https://api.telegram.org'
 
-TOKEN = os.environ.get('TOKEN', '768289439:AAEqAEMwoo5iuoJizYBW75l05HTuL_bRsHQ')
+TOKEN = os.environ.get('TOKEN', '768289439:AAERGbApZFLAluZgJilMeBKXYkLrIikT18U')
 
 # Logger config
 LOGGING = {
