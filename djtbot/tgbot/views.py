@@ -100,7 +100,7 @@ class BotView(APIView):
             #         bot.send_message(Views.user_id(data), Messages.no_product(), reply_markup=Views.menu(),
             #                          parse_mode='HTML')
             #         return Response('Ok', status=status.HTTP_200_OK)
-            elif data["message"]["text"] == '/start':
+            if data["message"]["text"] == '/start':
                 if UserManager.is_user(data["message"]["chat"]["id"]) is None:
                     UserManager.add_user(data["message"]["chat"]["id"], data["message"]["chat"]["first_name"],
                                          data["message"]["chat"]["username"], data["message"]["from"]["is_bot"])
