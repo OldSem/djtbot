@@ -17,6 +17,8 @@ from .manager import UserManager, ManagerUserCity, ManagerUserTypes, ClothesCate
     ClothesManager, BasketManager, OrderManager, HistoryUpdateManager
 from .settings import bot
 from .messages import Messages
+from .buttons import Buttons
+from .routes import order, add_product_to_basket, get_all_product_in_basket
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -38,19 +40,27 @@ class StartView(APIView):
 @csrf_exempt
 def bot_view(request):
     if request.method == 'POST':
+        log.info('Use method "POST"')
         data = json.loads(request.body.decode('utf-8'))
         if 'message' in data:
-            try:
-                if get_text(data) == '#куртки':
-                    print('#куртки')
-                result_message(data)
-                return HttpResponse("ok")
-            except ValueError as error:
-                print(str(error))
-                return HttpResponse("ok")
+            log.info(f'Use Mode Message in data, data: {data}')
+            result_message(data)
+            return HttpResponse("ok")
         elif 'inline_query' in data:
-            print(data)
+            log.info(f'Use Mode Inline Query in data, data: {data}')
             inline_query(data)
+            return HttpResponse("ok")
+        elif 'callback_query' in data:
+            log.info(f'Use Mode Callback Query in data, data: {data}')
+            callback_data = data['callback_query']['data']
+            product_count_array = len(callback_data.split(','))
+            log.info(f'Product in data count {product_count_array}, data: {data}')
+            if product_count_array > 1:
+                log.info(f'Begin Order, data: {data}')
+                order(data)
+            else:
+                log.info(f'Begin Add product to Basket, data: {data}')
+                add_product_to_basket(data)
             return HttpResponse("ok")
 
 
@@ -154,7 +164,6 @@ def result_message(data):
     elif get_text(data) == 'Верхняя одежда':
         bot.send_message(chat_id, Messages.clothes(), reply_markup=Views.outerwear())
         return Response('Ok', status=status.HTTP_200_OK)
-
     elif get_text(data) == 'Нижняя одежда':
         bot.send_message(chat_id, Messages.clothes(), reply_markup=Views.underwear())
     elif get_text(data) == 'Костюмы':
@@ -258,9 +267,6 @@ def result_message(data):
     elif get_text(data) == 'Зонты':
         bot.send_message(chat_id, Messages.price(get_text(data)),
                          reply_markup=Views.price(get_text(data)), parse_mode='HTML')
-    # else:
-    #     bot.send_message(chat_id, f'Непонятно: {data}')
-    #     return Response('Ok', status=status.HTTP_200_OK)
 
 
 def inline_query(data):
@@ -286,7 +292,7 @@ def inline_query(data):
                 caption=product.description,
                 parse_mode='HTML',
                 description='Photo',
-                reply_markup=Views.product(article_id=product.article_id, category='all_products')))
+                reply_markup=Views.product(article_id=product.article_id, category='#products')))
         log.info('Inline Mode: result {0}'.format(results))
         bot.answer_inline_query(inline_id,
                                 results=results,
@@ -294,9 +300,11 @@ def inline_query(data):
                                 switch_pm_parameter='products',
                                 switch_pm_text=f'Все товары в наличии [{len(clothe)}]')
         log.info('Inline Mode: send photo inline OK, return response 200')
-    elif 'all_products' == query:
+    elif 'products' == query:
         print('all_products')
-    else:
+    elif Views.get_text(data) == Buttons.btn48.switch_inline_query_current_chat:
+        get_all_product_in_basket(data)
+    elif 'products' != query:
         query = data['inline_query']['query']
         category_name = get_category_id_in_query(query)
         user_instance = Views.user_id(data)
@@ -304,10 +312,15 @@ def inline_query(data):
         country = ManagerUserCity.get_user(user.id).name
         male = ManagerUserTypes.get_user(user.id).name
         category = ClothesCategoryManager.get_category_id(category=category_name)
-        clothe = ClothesManager.filter_clothes_for_category(
-            category_id=category.id,
-            male=1 if male == 'Мужской' else 2,
-            country=1 if country == 'Украина' else 2)
+        try:
+            clothe = ClothesManager.filter_clothes_for_category(
+                category_id=category.id,
+                male=1 if male == 'Мужской' else 2,
+                country=1 if country == 'Украина' else 2)
+            log.info(f'Clothe to Begin, error: No')
+        except AttributeError as error:
+            log.info(f'Clothe not to Begin, error: {error}')
+            return
         results = []
         for product in clothe:
             results.append(InlineQueryResultPhoto(

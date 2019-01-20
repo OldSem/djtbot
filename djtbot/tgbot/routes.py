@@ -15,11 +15,9 @@ def start_view(data):
                               view.username(data), view.is_bot(data))
 
         bot.send_message(view.chat_id(data), message.country(), reply_markup=view.question_country())
-        return
 
     else:
         bot.send_message(view.chat_id(data), message.start(), reply_markup=view.menu(), parse_mode='HTML')
-        return
 
 
 def country_view(data):
@@ -35,14 +33,12 @@ def country_view(data):
 
                 bot.send_message(view.chat_id(data), message.male(),
                                         reply_markup=view.question_male())
-                return
 
             elif view.get_text(data) == button.btn2.text:
                 city.create(user_id=user.id, country=2)
 
                 bot.send_message(view.chat_id(data), message.male(),
                                         reply_markup=view.question_male())
-                return
 
         else:
             if view.get_text(data) == button.btn1.text:
@@ -50,14 +46,12 @@ def country_view(data):
 
                 bot.send_message(view.chat_id(data), message.male(),
                                         reply_markup=view.question_male())
-                return
 
             elif view.get_text(data) == button.btn2.text:
                 city.update(user_id=user.id, country=2)
 
                 bot.send_message(view.chat_id(data), message.male(),
                                         reply_markup=view.question_male())
-                return
 
 
 def male_view(data):
@@ -73,14 +67,12 @@ def male_view(data):
 
                 bot.send_message(view.chat_id(data), message.start(),
                                         reply_markup=view.menu(), parse_mode='HTML')
-                return
 
             elif view.get_text(data) == button.btn4.text:
                 types.create(2, user.id)
 
                 bot.send_message(view.chat_id(data), message.start(),
                                         reply_markup=view.menu(), parse_mode='HTML')
-                return
 
         else:
             if view.get_text(data) == button.btn3.text:
@@ -88,14 +80,12 @@ def male_view(data):
 
                 bot.send_message(view.chat_id(data), message.start(),
                                         reply_markup=view.menu(), parse_mode='HTML')
-                return
 
             elif view.get_text(data) == button.btn4.text:
                 types.update(user.id, 2)
 
                 bot.send_message(view.chat_id(data), message.start(),
                                         reply_markup=view.menu(), parse_mode='HTML')
-                return
 
 
 def get_category_id_in_query(query):
@@ -137,10 +127,8 @@ def see_product_view(data):
                                        next_offset='',
                                        switch_pm_parameter='products',
                                        switch_pm_text=f'{category_name} [{len(clothe)}]')
-        return
     else:
         bot.send_message(view.user_id(data), message.no_product(), reply_markup=view.menu(), parse_mode='HTML')
-        return
 
 
 def add_product_to_basket(data):
@@ -151,16 +139,14 @@ def add_product_to_basket(data):
         basket.del_product(id_user_in_telegram=user_id, product_id=product_id)
 
         bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
-                                         show_alert=True,
-                                         text=message.basket_remove_product(product_id))
-        return
+                                  show_alert=True,
+                                  text=message.basket_remove_product(product_id))
     else:
         basket.add(user_id=user_id, product_id=product_id)
 
         bot.answer_callback_query(callback_query_id=view.get_inline_query_id(data),
-                                         show_alert=True,
-                                         text=message.basket_add_product(product_id))
-        return
+                                  show_alert=True,
+                                  text=message.basket_add_product(product_id))
 
 
 def see_product_basket(data):
@@ -175,11 +161,9 @@ def see_product_basket(data):
     if len(product_list) > 0:
         bot.send_message(view.chat_id(data), text=message.basket(),
                                 reply_markup=view.see_basket(), parse_mode='HTML')
-        return
     else:
         bot.send_message(view.chat_id(data), message.basket_not_items(),
                                 reply_markup=view.basket(), parse_mode='HTML')
-        return
 
 
 def get_all_product_in_basket(data):
@@ -211,19 +195,16 @@ def get_all_product_in_basket(data):
                                        next_offset='',
                                        switch_pm_parameter='basket',
                                        switch_pm_text=f'Товары [{len(products)}]')
-        return
 
 
 def get_product(data, text):
     bot.send_message(view.chat_id(data), message.price(text),
                             reply_markup=view.price(text), parse_mode='HTML')
-    return
 
 
 def to_share(data):
     bot.send_message(chat_id=view.chat_id(data), text=message.to_share(),
                             reply_markup=view.to_share(), parse_mode='HTML')
-    return
 
 
 def order(data):
@@ -242,10 +223,8 @@ def order(data):
                               text=message.order())
     bot.send_message(view.chat_id(data), text=message.to_manager(),
                             reply_markup=view.order(), parse_mode='HTML')
-    return
 
 
 def reviews(data):
     bot.send_message(chat_id=view.chat_id(data), text=message.reviews(),
                             reply_markup=view.reviews(), parse_mode='HTML')
-    return
