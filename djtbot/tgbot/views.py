@@ -270,71 +270,79 @@ def result_message(data):
 
 
 def inline_query(data):
-    inline_id = data['inline_query']['id']
     log.info('Inline Mode')
     query = data['inline_query']['query']
     log.info('Inline Mode: {0}'.format(query))
-
     if query is '':
-        log.info('Inline Mode: query is " null "')
-        clothe = ClothesManager.get_clothes_all()
-        log.info('Inline Mode: return clothe all: {0}'.format(clothe))
-        results = []
-
-        for product in clothe:
-            log.info('Inline Mode: add clothe to array inline')
-            results.append(InlineQueryResultPhoto(
-                id=product.id,
-                photo_url=f"{settings.DOMAIN}{product.img_center.url}",
-                thumb_url=f"{settings.DOMAIN}{product.img_inline.url}",
-                photo_width=30,
-                photo_height=30,
-                caption=product.description,
-                parse_mode='HTML',
-                description='Photo',
-                reply_markup=Views.product(article_id=product.article_id, category='#products')))
-        log.info('Inline Mode: result {0}'.format(results))
-        bot.answer_inline_query(inline_id,
-                                results=results,
-                                next_offset='',
-                                switch_pm_parameter='products',
-                                switch_pm_text=f'Все товары в наличии [{len(clothe)}]')
-        log.info('Inline Mode: send photo inline OK, return response 200')
-    elif 'products' == query:
-        print('all_products')
+        get_all_products(data)
     elif Views.get_text(data) == Buttons.btn48.switch_inline_query_current_chat:
         get_all_product_in_basket(data)
+    elif query == '#products':
+        get_all_products(data)
     elif 'products' != query:
-        query = data['inline_query']['query']
-        category_name = get_category_id_in_query(query)
-        user_instance = Views.user_id(data)
-        user = UserManager.is_user(user_instance)
-        country = ManagerUserCity.get_user(user.id).name
-        male = ManagerUserTypes.get_user(user.id).name
-        category = ClothesCategoryManager.get_category_id(category=category_name)
-        try:
-            clothe = ClothesManager.filter_clothes_for_category(
-                category_id=category.id,
-                male=1 if male == 'Мужской' else 2,
-                country=1 if country == 'Украина' else 2)
-            log.info(f'Clothe to Begin, error: No')
-        except AttributeError as error:
-            log.info(f'Clothe not to Begin, error: {error}')
-            return
-        results = []
-        for product in clothe:
-            results.append(InlineQueryResultPhoto(
-                id=product.id,
-                photo_url=f"{settings.DOMAIN}{product.img_center.url}",
-                thumb_url=f"{settings.DOMAIN}{product.img_inline.url}",
-                photo_width=30,
-                photo_height=30,
-                caption=product.description,
-                description='Photo',
-                parse_mode='HTML',
-                reply_markup=Views.product(article_id=product.article_id, category=query)))
-        bot.answer_inline_query(inline_id,
-                                results=results,
-                                next_offset='',
-                                switch_pm_parameter='products',
-                                switch_pm_text=f'{category_name} [{len(clothe)}]')
+        filter_products(data)
+
+
+def get_all_products(data):
+    inline_id = data['inline_query']['id']
+    log.info('Inline Mode: query is " null "')
+    clothe = ClothesManager.get_clothes_all()
+    log.info('Inline Mode: return clothe all: {0}'.format(clothe))
+    results = []
+
+    for product in clothe:
+        log.info('Inline Mode: add clothe to array inline')
+        results.append(InlineQueryResultPhoto(
+            id=product.id,
+            photo_url=f"{settings.DOMAIN}{product.img_center.url}",
+            thumb_url=f"{settings.DOMAIN}{product.img_inline.url}",
+            photo_width=30,
+            photo_height=30,
+            caption=product.description,
+            parse_mode='HTML',
+            description='Photo',
+            reply_markup=Views.product(article_id=product.article_id, category='#products')))
+    log.info('Inline Mode: result {0}'.format(results))
+    bot.answer_inline_query(inline_id,
+                            results=results,
+                            next_offset='',
+                            switch_pm_parameter='products',
+                            switch_pm_text=f'Все товары в наличии [{len(clothe)}]')
+    log.info('Inline Mode: send photo inline OK, return response 200')
+
+
+def filter_products(data):
+    inline_id = data['inline_query']['id']
+    query = data['inline_query']['query']
+    category_name = get_category_id_in_query(query)
+    user_instance = Views.user_id(data)
+    user = UserManager.is_user(user_instance)
+    country = ManagerUserCity.get_user(user.id).name
+    male = ManagerUserTypes.get_user(user.id).name
+    category = ClothesCategoryManager.get_category_id(category=category_name)
+    try:
+        clothe = ClothesManager.filter_clothes_for_category(
+            category_id=category.id,
+            male=1 if male == 'Мужской' else 2,
+            country=1 if country == 'Украина' else 2)
+        log.info(f'Clothe to Begin, error: No')
+    except AttributeError as error:
+        log.info(f'Clothe not to Begin, error: {error}')
+        raise
+    results = []
+    for product in clothe:
+        results.append(InlineQueryResultPhoto(
+            id=product.id,
+            photo_url=f"{settings.DOMAIN}{product.img_center.url}",
+            thumb_url=f"{settings.DOMAIN}{product.img_inline.url}",
+            photo_width=30,
+            photo_height=30,
+            caption=product.description,
+            description='Photo',
+            parse_mode='HTML',
+            reply_markup=Views.product(article_id=product.article_id, category=query)))
+    bot.answer_inline_query(inline_id,
+                            results=results,
+                            next_offset='',
+                            switch_pm_parameter='products',
+                            switch_pm_text=f'{category_name} [{len(clothe)}]')
