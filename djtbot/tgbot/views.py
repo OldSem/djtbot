@@ -37,6 +37,11 @@ class StartView(APIView):
         return Response({'photo': f"{settings.DOMAIN}{img.img_url}"}, status.HTTP_200_OK)
 
 
+class CSVViews(APIView):
+    def post(self, request):
+        print(request)
+
+
 @csrf_exempt
 def bot_view(request):
     if request.method == 'POST':

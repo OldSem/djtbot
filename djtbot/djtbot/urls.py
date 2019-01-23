@@ -6,7 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
-    path('', include('tgbot.urls')),
+    # path('', include('tgbot.urls')),
     path('admin/', admin.site.urls),
 ]
 

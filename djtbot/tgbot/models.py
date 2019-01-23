@@ -89,6 +89,7 @@ class Clothe(models.Model):
     is_active = models.BooleanField(default=True)
     price = models.PositiveSmallIntegerField()
     markup = models.PositiveSmallIntegerField()
+    link_to_purchase = models.URLField(max_length=1024)
 
     currency = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryClothe, on_delete=models.CASCADE)

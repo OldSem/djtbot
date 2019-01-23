@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'tgbot',
     'rest_framework',
 ]
@@ -160,6 +161,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+# CELERY_RESULT_BACKEND = 'django-cache'
 
 # Logger config
 # LOGGING = {
