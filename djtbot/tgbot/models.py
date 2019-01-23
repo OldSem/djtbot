@@ -90,6 +90,7 @@ class Clothe(models.Model):
     price = models.PositiveSmallIntegerField()
     markup = models.PositiveSmallIntegerField()
     link_to_purchase = models.URLField(max_length=1024)
+    link_to_site_product = models.URLField(max_length=1024)
 
     currency = models.ForeignKey(CategoryPrice, on_delete=models.CASCADE)
     category = models.ForeignKey(CategoryClothe, on_delete=models.CASCADE)
