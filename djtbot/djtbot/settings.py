@@ -29,7 +29,11 @@ HOST = os.environ.get('HOST', 'robosapiens.icu')
 
 DOMAIN = f'https://{HOST}'
 
-ALLOWED_HOSTS = [HOST, 'localhost']
+ALLOWED_HOSTS = [
+    HOST,
+    'localhost',
+    'web'
+]
 
 # Application definition
 
@@ -85,7 +89,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', 'test_bot'),
         'USER': os.environ.get('DB_USER', 'test_advbot'),
         'PASSWORD': os.environ.get('DB_PASSWORD', 'test_11bot22'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'HOST': os.environ.get('DB_HOST', '46.101.211.123'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
@@ -133,20 +137,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-_PATH = os.path.abspath(os.path.dirname(__file__))
+# _PATH = os.path.abspath(os.path.dirname(__file__))
+#
+# MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
+# MEDIA_URL = '/media/'
+#
+# STATIC_ROOT = os.path.join(_PATH, 'files', 'static')
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = (
+#     os.path.join(_PATH, 'static'),
+# )
+# STATICFILES_FINDERS = (
+#     'django.contrib.staticfiles.finders.FileSystemFinder',
+#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+# )
 
-MEDIA_ROOT = os.path.join(_PATH, 'files', 'media')
+# static folder
+STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(_PATH, 'files', 'static')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(_PATH, 'static'),
-)
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+# static path
+STATIC_ROOT = './static/'
+MEDIA_ROOT = '/media/'
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
@@ -162,26 +174,37 @@ REST_FRAMEWORK = {
     )
 }
 
-CELERY_RESULT_BACKEND = 'django-db'
-
-# CELERY_RESULT_BACKEND = 'django-cache'
+# Celery broker => redis
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # Logger config
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'file': {
-#             'level': 'DEBUG',
-#             'class': 'logging.FileHandler',
-#             'filename': '/home/adv/robosapiens.icu/debug.log',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['file'],
-#             'level': 'DEBUG',
-#             'propagate': True,
-#         },
-#     },
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'celery': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
+
+# ---------------- Local Settings ---------------------------------------
+# Put your local settings in mydjango directory to override this settings
+# File name should be local_settings.py
+try:
+    from .local_settings import *
+except ImportError:
+    print('No Local Settings Found')
+
+# ---------------- End Local Settings ------------------------------------
