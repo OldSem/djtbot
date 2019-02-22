@@ -122,9 +122,11 @@ def parseAW():
     goods_url = ClothePartner.objects.get(name='Answear').url
     markup_url = ClothePartner.objects.get(name='Answear').markup_url
     r = requests.get(goods_url, stream=True)
+    r.encoding = ('utf-8')
     print ('loading prices...')
     goods = xmltodict.parse(r.text)
     r2 = requests.get(markup_url, stream=True)
+    r2.encoding = ('utf-8')
     print ('loading markups...')
     marks = xmltodict.parse(r2.text)
     c=Clothe.objects.filter(partner__name='Answear')
