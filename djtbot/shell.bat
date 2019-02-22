@@ -1,0 +1,1 @@
+d:\Python\Python3\python manage.py shell
