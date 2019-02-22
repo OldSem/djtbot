@@ -20,7 +20,7 @@ from .messages import Messages
 from .buttons import Buttons
 from .routes import order, add_product_to_basket, get_all_product_in_basket
 from django.views.decorators.csrf import csrf_exempt
-
+from .parser import parseAW
 
 set_bot = Bot()
 set_bot.delete_webhook()
@@ -351,3 +351,12 @@ def filter_products(data):
                             next_offset='',
                             switch_pm_parameter='products',
                             switch_pm_text=f'{category_name} [{len(clothe)}]')
+
+
+def parse(request):
+    parseAW()
+    response = HttpResponse(json.dumps('Ок'), content_type='application/json')
+    response["Access-Control-Allow-Origin"] = "*"
+
+    return response
+

@@ -1,4 +1,4 @@
-import xmltodict,os
+import xmltodict,os,requests
 from .models import Clothe,CategoryPrice,CategoryClothe,ClothePartner,ClotheMale,ClotheCountry
 
 
@@ -119,12 +119,17 @@ categoryAW={
 }
 
 def parseAW():
-    f=open('Answear\\price.xml','rb')
-    f2=open('Answear\\markup.xml','rb')
+    goods_url = ClothePartner.objects.get(name='Answear').url
+    markup_url = ClothePartner.objects.get(name='Answear').markup_url
+    r = requests.get(goods_url, stream=True)
     print ('loading prices...')
-    goods = xmltodict.parse(f)
+    goods = xmltodict.parse(r.text)
+    r2 = requests.get(markup_url, stream=True)
     print ('loading markups...')
-    marks = xmltodict.parse(f2)
+    marks = xmltodict.parse(r2.text)
+    c=Clothe.objects.filter(partner__name='Answear')
+    c.delete()
+    cnt=0
     for i in goods[u'yml_catalog'][u'shop'][u'offers'][u'offer']:
         if i[u'category_id'] in categoryAW:
             c = Clothe()
@@ -149,8 +154,10 @@ def parseAW():
             c.male = ClotheMale.objects.get(name = categoryAW[i[u'category_id']][1])
             print (c.male.name)
             c.country = ClotheCountry.objects.get(name='Россия')
+            cnt+=1
+            print ('Good - ',cnt)
             c.save()
 
-    f.close()
-    f2.close()
+    r.close()
+    r2.close()
     print (goods.keys(),len(c))

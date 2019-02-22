@@ -73,6 +73,7 @@ class ClothePartner(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=30, unique=True)
     url = models.URLField()
+    markup_url = models.URLField()
 
     def __str__(self):
         return self.name
