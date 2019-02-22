@@ -31,6 +31,7 @@ DOMAIN = f'https://{HOST}'
 
 ALLOWED_HOSTS = [
     HOST,
+    '127.0.0.1',
     'localhost',
     'web'
 ]
@@ -86,10 +87,10 @@ WSGI_APPLICATION = 'djtbot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'test_bot'),
-        'USER': os.environ.get('DB_USER', 'test_advbot'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'test_11bot22'),
-        'HOST': os.environ.get('DB_HOST', '46.101.211.123'),
+        'NAME': os.environ.get('DB_NAME', 'bot_site'),
+        'USER': os.environ.get('DB_USER', 'parlament'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'night_blue'),
+        'HOST': os.environ.get('DB_HOST', '178.62.247.95'),
         'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
