@@ -1,4 +1,4 @@
-import xmltodict,os,requests
+import xmltodict,os,requests,datetime
 from .models import Clothe,CategoryPrice,CategoryClothe,ClothePartner,ClotheMale,ClotheCountry
 
 
@@ -138,28 +138,23 @@ def parseAW():
             c.article_id = i[u'@id']
             print (c.article_id)
             c.description = i[u'description'][:i[u'description'].find('\n')]
-            print (c.description)
             c.price = round(float(i[u'price']))
-            print (c.price)
             try:
                 c.markup = round((1-round(float([j for j in marks[u'yml_catalog'][u'shop'][u'offers'][u'offer'] if j[u'@id']==i[u'@id']][0][u'price']))/round(float([j for j in marks[u'yml_catalog'][u'shop'][u'offers'][u'offer'] if j[u'@id']==i[u'@id']][0][u'oldprice'])))*100)
             except:
                 c.markup = 0
-            print (c.markup)
             c.link_partner_to_product=i[u'url']
             c.link_image_to_product = i[u'picture']
-            c.currency = CategoryPrice.objects.get(name='Рубли')
-            print (i[u'category_id'])
+            c.currency = CategoryPrice.objects.get(name='Гривны')
             c.category = CategoryClothe.objects.get(name = categoryAW[i[u'category_id']][0])
-            print (c.category.name)
             c.partner = ClothePartner.objects.get(name='Answear')
             c.male = ClotheMale.objects.get(name = categoryAW[i[u'category_id']][1])
-            print (c.male.name)
-            c.country = ClotheCountry.objects.get(name='Россия')
+            c.country = ClotheCountry.objects.get(name='Украина')
             cnt+=1
             print ('Good - ',cnt)
+            print (str(datetime.datetime.now()))
             c.save()
 
     r.close()
     r2.close()
-    print (goods.keys(),len(c))
+    return str(cnt)

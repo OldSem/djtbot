@@ -354,8 +354,8 @@ def filter_products(data):
 
 
 def parse(request):
-    parseAW()
-    response = HttpResponse(json.dumps('Ок'), content_type='application/json')
+
+    response = HttpResponse(json.dumps(parseAW()), content_type='application/json')
     response["Access-Control-Allow-Origin"] = "*"
 
     return response
